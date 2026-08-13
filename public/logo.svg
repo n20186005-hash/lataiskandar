@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="360" height="96" viewBox="0 0 360 96" role="img" aria-labelledby="title">
+<title id="title">Lata Iskandar</title>
+<rect x="0" y="8" width="80" height="80" rx="25" fill="#103A2F"/>
+<path d="M24 29c13 4 21-6 34-3-4 10-12 15-24 15 10 3 17 1 26-3-4 13-14 21-30 21 10 4 19 3 27 0-6 10-15 15-28 14" fill="none" stroke="#D7EEE7" stroke-width="6" stroke-linecap="round"/>
+<circle cx="61" cy="27" r="5" fill="#C98B59"/>
+<text x="100" y="48" fill="#08261F" font-family="Georgia,serif" font-size="31" font-weight="700">Lata Iskandar</text>
+<text x="101" y="69" fill="#668B52" font-family="Arial,sans-serif" font-size="12" font-weight="700" letter-spacing="3">TAPAH · PERAK</text>
+</svg>

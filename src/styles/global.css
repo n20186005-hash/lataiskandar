@@ -1,0 +1,39 @@
+@import "tailwindcss";
+
+@theme {
+  --color-forest-950: #08261f;
+  --color-forest-900: #103a2f;
+  --color-forest-800: #174b3d;
+  --color-moss-500: #668b52;
+  --color-mist-50: #f8f7f0;
+  --color-mist-100: #efeee5;
+  --color-water-100: #d7eee7;
+  --color-water-300: #96d2c6;
+  --color-clay-400: #c98b59;
+  --color-clay-500: #a96d43;
+  --font-sans: "Aptos", "Segoe UI", system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-display: Georgia, "Times New Roman", serif;
+}
+
+:root { color-scheme: light; }
+html { scroll-behavior: smooth; background: #f8f7f0; }
+body { margin: 0; background: #f8f7f0; color: #08261f; font-family: var(--font-sans); }
+::selection { background: #96d2c6; color: #08261f; }
+a { text-underline-offset: 0.2em; }
+
+.container-shell { width: min(1180px, calc(100% - 2rem)); margin-inline: auto; }
+.section-pad { padding-block: clamp(4rem, 8vw, 7rem); }
+.eyebrow { letter-spacing: .16em; text-transform: uppercase; font-size: .73rem; font-weight: 800; }
+.paper-card { background: rgba(255,255,255,.76); border: 1px solid rgba(8,38,31,.12); box-shadow: 0 18px 60px rgba(8,38,31,.08); }
+.contour { background-image: radial-gradient(circle at 1px 1px, rgba(8,38,31,.14) 1px, transparent 0); background-size: 18px 18px; }
+.hero-scrim { background: linear-gradient(90deg, rgba(3,22,17,.88) 0%, rgba(3,22,17,.58) 48%, rgba(3,22,17,.16) 100%); }
+.cascade-rule { width: 76px; height: 5px; border-radius: 999px; background: linear-gradient(90deg,#96d2c6,#f8f7f0); }
+
+summary::-webkit-details-marker { display: none; }
+details[open] .plus { transform: rotate(45deg); }
+.plus { transition: transform .2s ease; }
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; }
+}

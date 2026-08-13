@@ -1,0 +1,15 @@
+---
+interface Props { compact?: boolean; inverse?: boolean; }
+const { compact = false, inverse = false } = Astro.props;
+---
+<a href="#atas" class="inline-flex items-center gap-3 no-underline" aria-label="Lata Iskandar — kembali ke atas">
+  <svg width="46" height="46" viewBox="0 0 64 64" role="img" aria-label="Simbol tiga tingkat air terjun Lata Iskandar">
+    <rect width="64" height="64" rx="20" fill={inverse ? '#F8F7F0' : '#103A2F'} />
+    <path d="M19 17c10 3 16-5 26-2-3 8-9 12-18 12 8 2 13 1 20-2-3 10-11 16-23 16 8 3 15 2 21 0-5 8-12 12-22 11" fill="none" stroke={inverse ? '#103A2F' : '#D7EEE7'} stroke-width="5" stroke-linecap="round" />
+    <circle cx="47" cy="15" r="4" fill="#C98B59" />
+  </svg>
+  {!compact && <span class:list={["leading-none", inverse ? "text-mist-50" : "text-forest-950"]}>
+    <strong class="block font-[var(--font-display)] text-[1.15rem] tracking-tight">Lata Iskandar</strong>
+    <span class="mt-1 block text-[.68rem] font-bold uppercase tracking-[.18em] opacity-70">Tapah · Perak</span>
+  </span>}
+</a>

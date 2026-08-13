@@ -1,0 +1,240 @@
+---
+import Logo from '../components/Logo.astro';
+import '../styles/global.css';
+
+export const prerender = true;
+
+const site = Astro.site;
+const canonicalUrl = site ? new URL(Astro.url.pathname, site).href : undefined;
+const socialImage = site ? new URL('/images/lata-iskandar-hero.jpg', site).href : '/images/lata-iskandar-hero.jpg';
+const mapLink = 'https://www.google.com/maps/search/?api=1&query=Lata%20Iskandar%2C%20Exit%2059%2C%2035000%20Tapah%2C%20Perak%2C%20Malaysia';
+const mapEmbed = 'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3978.459907179805!2d101.32229491213477!3d4.324371395631466!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x31caffe91a7d7a6b%3A0x94b3977f44639a57!2sLata%20Iskandar!5e0!3m2!1sms!2smy!4v1786602278377!5m2!1sms!2smy';
+
+const faqs = [
+  { q: 'Adakah masuk ke Lata Iskandar berbayar?', a: 'Kunjungan ke kawasan air terjun lazimnya tanpa tiket masuk. Sediakan wang kecil untuk pembelian di gerai atau kemudahan seperti tandas, dan semak papan tanda di lokasi kerana aturan boleh berubah.' },
+  { q: 'Boleh mandi di air terjun?', a: 'Ramai pengunjung bermain air di bahagian cetek. Pilih kawasan yang tenang, awasi kanak-kanak dan elakkan masuk ketika hujan lebat atau arus kelihatan deras.' },
+  { q: 'Berapa lama patut singgah?', a: 'Untuk foto, melihat air terjun dan membeli snek, sekitar 30–60 minit biasanya selesa. Tambah masa jika mahu berehat atau bermain air.' },
+  { q: 'Ada tempat letak kereta?', a: 'Parkir kebanyakannya di bahu jalan berhampiran gerai dan ruangnya terhad. Datang lebih awal pada hujung minggu dan jangan menghalang laluan utama.' },
+  { q: 'Ada bas terus ke Lata Iskandar?', a: 'Jangan bergantung pada bas awam yang berhenti terus di air terjun. Cara lebih praktikal ialah tiba di Tapah atau Tapah Road dahulu, kemudian sambung dengan teksi, e-hailing jika tersedia, kereta sewa atau pemandu persendirian.' },
+  { q: 'Waktu apa paling sesuai?', a: 'Pagi hingga lewat petang ketika masih terang paling sesuai. Selepas hujan, batu boleh sangat licin dan aliran lebih kuat; utamakan keadaan cuaca dan keselamatan.' },
+];
+
+const attraction = {
+  '@type': ['TouristAttraction', 'LocalBusiness'],
+  '@id': canonicalUrl ? `${canonicalUrl}#lata-iskandar` : '#lata-iskandar',
+  name: 'Lata Iskandar',
+  description: 'Air terjun tepi Laluan Persekutuan 59 di antara Tapah dan Cameron Highlands, Perak.',
+  address: {
+    '@type': 'PostalAddress',
+    streetAddress: 'Exit 59, Laluan Persekutuan 59',
+    addressLocality: 'Tapah',
+    addressRegion: 'Perak',
+    postalCode: '35000',
+    addressCountry: 'MY',
+  },
+  geo: { '@type': 'GeoCoordinates', latitude: 4.324371395631466, longitude: 101.32229491213477 },
+  openingHours: 'Mo-Su 00:00-23:59',
+  aggregateRating: { '@type': 'AggregateRating', ratingValue: 4.0, reviewCount: 98, bestRating: 5 },
+  ...(canonicalUrl ? { url: canonicalUrl } : {}),
+  ...(site ? { image: new URL('/images/lata-iskandar-hero.jpg', site).href } : {}),
+};
+const faqSchema = {
+  '@type': 'FAQPage',
+  mainEntity: faqs.map((item) => ({ '@type': 'Question', name: item.q, acceptedAnswer: { '@type': 'Answer', text: item.a } })),
+};
+const jsonLd = { '@context': 'https://schema.org', '@graph': [attraction, faqSchema] };
+---
+<!doctype html>
+<html lang="ms">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width" />
+    <title>Lata Iskandar, Tapah — Panduan Singgah Air Terjun Route 59</title>
+    <meta name="description" content="Panduan ringkas Lata Iskandar di Tapah: akses, parkir, kos, masa terbaik, pengangkutan, makanan, peta dan tempat menarik berdekatan." />
+    <meta name="theme-color" content="#103A2F" />
+    <meta property="og:type" content="website" />
+    <meta property="og:locale" content="ms_MY" />
+    <meta property="og:title" content="Lata Iskandar — Air terjun di tengah perjalanan" />
+    <meta property="og:description" content="Panduan praktikal untuk berhenti di Lata Iskandar di laluan Tapah–Cameron Highlands." />
+    <meta property="og:image" content={socialImage} />
+    {canonicalUrl && <meta property="og:url" content={canonicalUrl} />}
+    {canonicalUrl && <link rel="canonical" href={canonicalUrl} />}
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+    <script type="application/ld+json" set:html={JSON.stringify(jsonLd)}></script>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-HXM22WWPKP"></script>
+    <script is:inline>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-HXM22WWPKP');
+    </script>
+  </head>
+  <body>
+    <header id="atas" class="absolute inset-x-0 top-0 z-20 border-b border-white/15 text-white">
+      <div class="container-shell flex items-center justify-between py-4">
+        <Logo inverse />
+        <nav class="hidden items-center gap-6 text-sm font-bold md:flex" aria-label="Navigasi utama">
+          <a href="#rancang" class="hover:text-water-100">Rancang lawatan</a>
+          <a href="#datang" class="hover:text-water-100">Cara ke sini</a>
+          <a href="#sekitar" class="hover:text-water-100">Sekitar</a>
+          <a href="#faq" class="hover:text-water-100">FAQ</a>
+        </nav>
+        <a href={mapLink} target="_blank" rel="noopener noreferrer" class="rounded-full border border-white/35 bg-white/10 px-4 py-2 text-sm font-extrabold backdrop-blur hover:bg-white hover:text-forest-950">Buka peta ↗</a>
+      </div>
+    </header>
+
+    <main>
+      <section class="relative min-h-[720px] overflow-hidden bg-forest-950 text-white">
+        <img src="/images/lata-iskandar-hero.jpg" alt="Air terjun Lata Iskandar mengalir di celah batu dan hutan tropika" class="absolute inset-0 h-full w-full object-cover" fetchpriority="high" />
+        <div class="hero-scrim absolute inset-0"></div>
+        <div class="absolute inset-y-0 right-0 hidden w-[38%] contour opacity-25 lg:block"></div>
+        <div class="container-shell relative flex min-h-[720px] items-end pb-16 pt-32 md:pb-24">
+          <div class="max-w-3xl">
+            <div class="cascade-rule mb-7"></div>
+            <p class="eyebrow mb-4 text-water-100">Federal Route 59 · Tapah, Perak</p>
+            <h1 class="max-w-[10ch] font-[var(--font-display)] text-[clamp(4.4rem,10vw,8.8rem)] leading-[.82] tracking-[-.055em]">Berhenti. Dengar. Sejuk.</h1>
+            <p class="mt-8 max-w-2xl text-lg leading-8 text-white/82 md:text-xl">Lata Iskandar ialah air terjun yang muncul hampir terus di tepi jalan lama Tapah–Cameron Highlands — tempat untuk merehatkan kaki, merasa udara hutan dan menyambung perjalanan dengan lebih segar.</p>
+            <div class="mt-9 flex flex-wrap gap-3 text-sm font-bold">
+              <span class="rounded-full bg-white/12 px-4 py-2 backdrop-blur">Air terjun tepi jalan</span>
+              <span class="rounded-full bg-white/12 px-4 py-2 backdrop-blur">Singgah ± 30–60 min</span>
+              <span class="rounded-full bg-white/12 px-4 py-2 backdrop-blur">Gerai & kraftangan</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section-pad bg-mist-50" id="rancang">
+        <div class="container-shell grid gap-12 lg:grid-cols-[.9fr_1.1fr] lg:items-start">
+          <div class="lg:sticky lg:top-8">
+            <p class="eyebrow text-clay-500">Kenapa singgah</p>
+            <h2 class="mt-4 font-[var(--font-display)] text-5xl leading-[.98] tracking-tight md:text-6xl">Ritma hutan, cuma beberapa langkah dari jalan.</h2>
+            <p class="mt-6 max-w-xl text-lg leading-8 text-forest-900/75">Tidak perlu trek panjang. Dari kawasan gerai, bunyi air sudah memenuhi ruang. Batu bertingkat, percikan putih dan kanopi hijau menjadikan Lata Iskandar satu hentian yang terasa jauh dari lebuh raya walaupun aksesnya mudah.</p>
+          </div>
+          <div class="grid gap-5 sm:grid-cols-2">
+            <article class="paper-card rounded-[2rem] p-7">
+              <span class="text-3xl">◌</span><h3 class="mt-8 text-xl font-black">Bayaran / kos</h3>
+              <p class="mt-3 leading-7 text-forest-900/70">Kemasukan ke kawasan air terjun lazimnya percuma. Bawa wang kecil untuk tandas, makanan, buah-buahan atau kraftangan di gerai.</p>
+            </article>
+            <article class="rounded-[2rem] bg-forest-900 p-7 text-white sm:translate-y-8">
+              <span class="text-3xl text-water-300">≈</span><h3 class="mt-8 text-xl font-black">Masa terbaik</h3>
+              <p class="mt-3 leading-7 text-white/72">Datang waktu pagi atau siang ketika cahaya masih baik. Selepas hujan, aliran boleh lebih deras dan batu sangat licin.</p>
+            </article>
+            <article class="rounded-[2rem] bg-water-100 p-7">
+              <span class="text-3xl">P</span><h3 class="mt-8 text-xl font-black">Parkir</h3>
+              <p class="mt-3 leading-7 text-forest-900/75">Ruang parkir adalah terhad dan kebanyakannya di bahu jalan berhampiran gerai. Hujung minggu boleh sesak; jangan parkir hingga menyempitkan laluan.</p>
+            </article>
+            <article class="paper-card rounded-[2rem] p-7 sm:translate-y-8">
+              <span class="text-3xl">↗</span><h3 class="mt-8 text-xl font-black">Tempoh lawatan</h3>
+              <p class="mt-3 leading-7 text-forest-900/70">Peruntukkan 30–60 minit untuk foto, melihat air terjun dan snek. Jika mahu bermain air atau berehat lebih lama, tambah masa secukupnya.</p>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section class="section-pad overflow-hidden bg-forest-950 text-white">
+        <div class="container-shell grid gap-8 lg:grid-cols-[1.15fr_.85fr] lg:items-center">
+          <figure class="relative">
+            <img src="/images/lata-iskandar-portrait.jpg" alt="Pandangan dekat aliran bertingkat Lata Iskandar" loading="lazy" class="aspect-[4/5] w-full rounded-[2.5rem] object-cover" />
+            <figcaption class="absolute bottom-5 left-5 rounded-full bg-forest-950/75 px-4 py-2 text-xs font-bold backdrop-blur">Air yang turun bertingkat di antara batu granit</figcaption>
+          </figure>
+          <div class="lg:pl-10">
+            <p class="eyebrow text-water-300">Nota keselamatan</p>
+            <h2 class="mt-4 font-[var(--font-display)] text-5xl leading-none md:text-6xl">Cantik tidak bermakna jinak.</h2>
+            <div class="mt-8 space-y-5 text-lg leading-8 text-white/72">
+              <p>Batu di sekitar air terjun sentiasa boleh menjadi licin. Gunakan kasut bertapak baik, elakkan memanjat permukaan basah dan pastikan kanak-kanak sentiasa dalam pengawasan.</p>
+              <p>Jika hujan lebat di kawasan hulu atau air kelihatan berubah warna dan semakin deras, jauhkan diri daripada alur sungai. Nikmati pemandangan dari kawasan yang stabil.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section-pad bg-mist-100" id="datang">
+        <div class="container-shell">
+          <div class="max-w-3xl">
+            <p class="eyebrow text-clay-500">Cara ke Lata Iskandar</p>
+            <h2 class="mt-4 font-[var(--font-display)] text-5xl leading-none md:text-6xl">Naik ke Route 59, kemudian biar bunyi air jadi penanda.</h2>
+            <p class="mt-6 text-lg leading-8 text-forest-900/70">Laluan Tapah–Cameron Highlands sempit dan berselekoh. Kereta biasa memadai; pandu perlahan terutama selepas hujan dan beri ruang kepada kenderaan berat.</p>
+          </div>
+          <div class="mt-12 grid gap-5 lg:grid-cols-3">
+            <article class="paper-card rounded-[2rem] p-7"><p class="eyebrow text-moss-500">Lapangan terbang</p><h3 class="mt-3 text-2xl font-black">Sultan Azlan Shah, Ipoh (IPH)</h3><p class="mt-4 leading-7 text-forest-900/70">Dari lapangan terbang, pilihan paling fleksibel ialah kereta sewa atau teksi/pemandu persendirian menuju Tapah dan seterusnya Laluan 59. Jika mahu bas, bergerak dahulu ke terminal bas Ipoh dan sambung ke arah Cameron Highlands/Tapah mengikut perkhidmatan semasa.</p></article>
+            <article class="paper-card rounded-[2rem] p-7"><p class="eyebrow text-moss-500">Bas</p><h3 class="mt-3 text-2xl font-black">Turun di Tapah</h3><p class="mt-4 leading-7 text-forest-900/70">Terminal Bas Tapah ialah titik pertukaran yang lebih praktikal. Jangan anggap bas ekspres akan berhenti di air terjun: sambung dengan teksi, e-hailing jika tersedia atau pemandu yang telah ditempah.</p></article>
+            <article class="paper-card rounded-[2rem] p-7"><p class="eyebrow text-moss-500">Teksi / e-hailing</p><h3 class="mt-3 text-2xl font-black">Tempah perjalanan pergi-balik</h3><p class="mt-4 leading-7 text-forest-900/70">Liputan dan pemandu di jalan bukit tidak semestinya konsisten. Beritahu pemandu anda mahu berhenti di Lata Iskandar dan atur masa jemputan pulang sebelum tiba.</p></article>
+          </div>
+          <div class="mt-5 rounded-[2rem] border border-forest-950/10 bg-white/55 p-6 md:flex md:items-center md:justify-between">
+            <div><p class="eyebrow text-clay-500">Datang dengan kereta api?</p><p class="mt-2 font-bold">KTM ETS → Tapah Road → teksi / kereta ke Tapah → Route 59.</p></div>
+            <p class="mt-3 max-w-lg text-sm leading-6 text-forest-900/65 md:mt-0">Tapah Road ialah stesen kereta api terdekat yang praktikal; rancang sambungan darat lebih awal.</p>
+          </div>
+        </div>
+      </section>
+
+      <section class="bg-mist-50 py-10">
+        <div class="container-shell overflow-hidden rounded-[2.5rem] border border-forest-950/10 bg-white p-3 shadow-xl shadow-forest-950/5">
+          <div class="flex flex-col gap-4 px-4 py-5 sm:flex-row sm:items-end sm:justify-between">
+            <div><p class="eyebrow text-clay-500">Peta</p><h2 class="mt-2 font-[var(--font-display)] text-3xl">Lata Iskandar, Exit 59</h2></div>
+            <a href={mapLink} target="_blank" rel="noopener noreferrer" class="font-extrabold text-forest-800 underline">Buka arahan di Google Maps ↗</a>
+          </div>
+          <iframe src={mapEmbed} title="Peta Google Lata Iskandar" class="h-[460px] w-full rounded-[1.8rem] border-0" allowfullscreen loading="lazy" referrerpolicy="strict-origin-when-cross-origin"></iframe>
+        </div>
+      </section>
+
+      <section class="section-pad bg-mist-50" id="sekitar">
+        <div class="container-shell">
+          <div class="grid gap-12 lg:grid-cols-[.8fr_1.2fr]">
+            <div>
+              <p class="eyebrow text-clay-500">Makan sekitar</p>
+              <h2 class="mt-4 font-[var(--font-display)] text-5xl leading-none">Dari buah tepi jalan ke laksa di Tapah.</h2>
+            </div>
+            <div class="divide-y divide-forest-950/12 border-y border-forest-950/12">
+              <article class="grid gap-3 py-7 md:grid-cols-[1fr_1.6fr]"><h3 class="text-xl font-black">Gerai Lata Iskandar</h3><p class="leading-7 text-forest-900/70">Pilihan paling dekat untuk minuman, buah tempatan, snek ringkas dan kraftangan sebelum menyambung perjalanan.</p></article>
+              <article class="grid gap-3 py-7 md:grid-cols-[1fr_1.6fr]"><h3 class="text-xl font-black">Warisan Rosyadah · Tapah</h3><p class="leading-7 text-forest-900/70">Singgah di bandar Tapah untuk hidangan Melayu seperti ikan bakar dan nasi campur.</p></article>
+              <article class="grid gap-3 py-7 md:grid-cols-[1fr_1.6fr]"><h3 class="text-xl font-black">Kedai Laksa Cik Ti · Tapah</h3><p class="leading-7 text-forest-900/70">Pilihan santai untuk laksa dan makan ringan sebelum naik atau selepas turun dari laluan bukit.</p></article>
+            </div>
+          </div>
+
+          <div class="mt-24">
+            <p class="eyebrow text-clay-500">Tempat menarik berdekatan</p>
+            <div class="mt-6 grid gap-5 lg:grid-cols-3">
+              <article class="rounded-[2rem] bg-water-100 p-7"><span class="text-sm font-black">01</span><h3 class="mt-12 font-[var(--font-display)] text-3xl">Kuala Woh</h3><p class="mt-3 leading-7 text-forest-900/70">Hutan rekreasi berhampiran Tapah untuk suasana sungai, pokok besar dan rehat dalam teduhan.</p></article>
+              <article class="rounded-[2rem] bg-clay-400 p-7 text-forest-950"><span class="text-sm font-black">02</span><h3 class="mt-12 font-[var(--font-display)] text-3xl">Lata Kinjang</h3><p class="mt-3 leading-7 text-forest-950/70">Satu lagi air terjun terkenal di daerah Batang Padang, sesuai digabungkan jika anda meneroka kawasan Tapah–Chenderiang.</p></article>
+              <article class="rounded-[2rem] bg-forest-900 p-7 text-white"><span class="text-sm font-black text-water-300">03</span><h3 class="mt-12 font-[var(--font-display)] text-3xl">Cameron Highlands</h3><p class="mt-3 leading-7 text-white/70">Teruskan perjalanan mendaki Route 59 ke Ringlet dan kawasan tanah tinggi untuk ladang teh, cuaca sejuk dan pemandangan bukit.</p></article>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section-pad bg-mist-100" id="faq">
+        <div class="container-shell grid gap-12 lg:grid-cols-[.72fr_1.28fr]">
+          <div><p class="eyebrow text-clay-500">Soalan lazim</p><h2 class="mt-4 font-[var(--font-display)] text-5xl leading-none">Sebelum enjin dimatikan.</h2></div>
+          <div class="space-y-3">
+            {faqs.map((item) => (
+              <details class="group rounded-3xl border border-forest-950/10 bg-white px-6 py-5">
+                <summary class="flex cursor-pointer list-none items-center justify-between gap-4 font-black"><span>{item.q}</span><span class="plus grid h-8 w-8 shrink-0 place-items-center rounded-full bg-water-100 text-xl">+</span></summary>
+                <p class="max-w-2xl pt-4 leading-7 text-forest-900/70">{item.a}</p>
+              </details>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section class="relative overflow-hidden bg-forest-950 text-white">
+        <img src="/images/lata-iskandar-entrance.jpg" alt="Pemandangan kawasan jalan dan pintu masuk berhampiran Lata Iskandar" loading="lazy" class="absolute inset-0 h-full w-full object-cover opacity-35" />
+        <div class="absolute inset-0 bg-gradient-to-r from-forest-950 via-forest-950/85 to-forest-950/45"></div>
+        <div class="container-shell relative py-24 md:py-32">
+          <p class="eyebrow text-water-300">Satu hentian kecil</p>
+          <h2 class="mt-5 max-w-3xl font-[var(--font-display)] text-5xl leading-none md:text-7xl">Biar perjalanan ke tanah tinggi ada bunyi air.</h2>
+          <a href={mapLink} target="_blank" rel="noopener noreferrer" class="mt-9 inline-flex rounded-full bg-mist-50 px-6 py-3 font-black text-forest-950 no-underline">Navigasi ke Lata Iskandar ↗</a>
+        </div>
+      </section>
+    </main>
+
+    <footer class="bg-[#061c17] py-10 text-white/65">
+      <div class="container-shell flex flex-col gap-8 lg:flex-row lg:items-end lg:justify-between">
+        <div><Logo inverse /><p class="mt-5 max-w-xl text-sm leading-6">Laman panduan bebas untuk membantu merancang persinggahan. Bukan laman rasmi Lata Iskandar, pihak berkuasa tempatan atau mana-mana pengendali.</p></div>
+        <div class="max-w-lg text-xs leading-6 lg:text-right"><p>Foto: Ronykr (CC BY-SA 4.0), Ghaydaa Sayed (CC BY-SA 4.0), Sasha India (CC BY 2.0), melalui Wikimedia Commons. Foto disimpan secara tempatan dalam projek.</p><p class="mt-2">Maklumat waktu, akses, bayaran dan kemudahan boleh berubah; semak keadaan di lokasi sebelum perjalanan.</p></div>
+      </div>
+    </footer>
+  </body>
+</html>
