@@ -2,7 +2,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 
 const root = process.cwd();
-const read = (p) => fs.readFileSync(path.join(root, p), 'utf8');
+const read = (p) => fs.readFileSync(path.join(root, p), 'utf8').replace(/\r\n/g, '\n');
 const exists = (p) => fs.existsSync(path.join(root, p));
 const pkg = JSON.parse(read('package.json'));
 const fail = (m) => { throw new Error(m); };
@@ -26,7 +26,7 @@ pass('no pnpm-workspace.yaml');
 
 const lock = read('pnpm-lock.yaml');
 if (!lock.startsWith("lockfileVersion: '9.0'")) fail('lockfile is not pnpm v9 format');
-for (const [group, deps] of Object.entries({dependencies: pkg.dependencies, devDependencies: pkg.devDependencies})) {
+for (const deps of [pkg.dependencies, pkg.devDependencies]) {
   for (const [name, version] of Object.entries(deps)) {
     const escaped = name.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
     const re = new RegExp(`['\"]?${escaped}['\"]?:\\n\\s+specifier: ${version.replaceAll('.', '\\.')}`);
@@ -52,17 +52,32 @@ for (const rel of [...sourceFiles, 'README.md', 'astro.config.mjs', 'wrangler.js
 }
 pass('no forbidden placeholder/extension URLs in project text');
 
-const page = read('src/pages/index.astro');
+const page = [
+  'src/components/GuidePage.astro',
+  'src/i18n.ts',
+  'src/pages/index.astro',
+  'src/pages/en/index.astro',
+  'src/pages/zh/index.astro',
+].map(read).join('\n');
 const required = [
-  '<html lang="ms">', 'TouristAttraction', 'LocalBusiness', 'FAQPage', 'aggregateRating', 'openingHours',
+  'lang={t.htmlLang}', 'TouristAttraction', 'LocalBusiness', 'FAQPage', 'isAccessibleForFree', 'openingHours',
   'Bayaran / kos', 'Masa terbaik', 'Parkir', 'Tempoh lawatan', 'Sultan Azlan Shah', 'Terminal Bas Tapah',
   'Teksi / e-hailing', 'Tapah Road', 'Makan sekitar', 'Tempat menarik berdekatan', 'Bukan laman rasmi',
-  'G-HXM22WWPKP', '!1sms!2smy'
+  'G-HXM22WWPKP', '!1sms!2smy', 'hreflang', 'x-default', "locale=\"ms\"", "locale=\"en\"", "locale=\"zh\""
 ];
 for (const token of required) if (!page.includes(token)) fail(`missing required page token: ${token}`);
 if (!page.includes('canonicalUrl && <link rel="canonical"')) fail('canonical is not conditional');
-if (!page.includes('integrations: site ? [sitemap()] : []') && !read('astro.config.mjs').includes('integrations: site ? [sitemap()] : []')) fail('sitemap is not conditional on site');
-pass('required content, schema, GA4, local map locale, and URL fallbacks present');
+const astroConfig = read('astro.config.mjs');
+if (!astroConfig.includes("'https://lataiskandar.com'")) fail('site URL must be pinned to https://lataiskandar.com');
+if (!astroConfig.includes('sitemap()')) fail('sitemap integration missing');
+if (!exists('public/_headers')) fail('missing public/_headers');
+if (!read('public/_headers').includes('Strict-Transport-Security')) fail('HSTS header missing in public/_headers');
+if (!exists('public/_redirects')) fail('missing public/_redirects');
+for (const rule of ['http://lataiskandar.com/*', 'https://lataiskandar.com/:splat 301']) {
+  if (!read('public/_redirects').includes(rule)) fail(`_redirects missing rule: ${rule}`);
+}
+if (JSON.parse(read('package.json')).scripts['build'] !== 'astro build') fail('build script drifted');
+pass('required content, schema, GA4, local map locale, hreflang, and URL fallbacks present');
 
 for (const image of ['public/images/lata-iskandar-hero.jpg','public/images/lata-iskandar-portrait.jpg','public/images/lata-iskandar-entrance.jpg','public/favicon.svg','public/favicon-16x16.png','public/favicon-32x32.png','public/apple-touch-icon.png','public/logo.svg']) {
   if (!exists(image) || fs.statSync(path.join(root,image)).size === 0) fail(`missing asset ${image}`);

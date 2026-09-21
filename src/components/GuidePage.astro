@@ -1,0 +1,268 @@
+---
+import Logo from './Logo.astro';
+import { type Locale, localeLabels, localePath, locales, translations } from '../i18n';
+import '../styles/global.css';
+
+interface Props {
+  locale: Locale;
+}
+
+const { locale } = Astro.props;
+const t = translations[locale];
+
+const site = Astro.site;
+const canonicalUrl = site ? new URL(Astro.url.pathname, site).href : undefined;
+const socialImage = site ? new URL('/images/lata-iskandar-hero.jpg', site).href : '/images/lata-iskandar-hero.jpg';
+const mapLink = 'https://www.google.com/maps/search/?api=1&query=Lata%20Iskandar%2C%20Exit%2059%2C%2035000%20Tapah%2C%20Perak%2C%20Malaysia';
+const mapEmbed = 'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3978.459907179805!2d101.32229491213477!3d4.324371395631466!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x31caffe91a7d7a6b%3A0x94b3977f44639a57!2sLata%20Iskandar!5e0!3m2!1sms!2smy!4v1786602278377!5m2!1sms!2smy';
+
+const hreflangLinks = site
+  ? [
+      ...locales.map((l) => ({
+        hreflang: l === 'zh' ? 'zh-CN' : l,
+        href: new URL(localePath(l), site).href,
+      })),
+      { hreflang: 'x-default', href: new URL('/', site).href },
+    ]
+  : [];
+
+const planCardClasses = ['paper-card', 'bg-forest-900 text-white', 'bg-water-100', 'paper-card'];
+const nearbyCardClasses = ['rounded-[2rem] bg-water-100 p-7', 'rounded-[2rem] bg-clay-400 p-7 text-forest-950', 'rounded-[2rem] bg-forest-900 p-7 text-white'];
+
+const attraction = {
+  '@type': ['TouristAttraction', 'LocalBusiness'],
+  '@id': canonicalUrl ? `${canonicalUrl}#lata-iskandar` : '#lata-iskandar',
+  name: 'Lata Iskandar',
+  description: t.schemaDescription,
+  address: {
+    '@type': 'PostalAddress',
+    streetAddress: 'Exit 59, Laluan Persekutuan 59',
+    addressLocality: 'Tapah',
+    addressRegion: 'Perak',
+    postalCode: '35000',
+    addressCountry: 'MY',
+  },
+  geo: { '@type': 'GeoCoordinates', latitude: 4.324371395631466, longitude: 101.32229491213477 },
+  openingHours: 'Mo-Su 00:00-23:59',
+  isAccessibleForFree: true,
+  ...(canonicalUrl ? { url: canonicalUrl } : {}),
+  ...(site ? { image: new URL('/images/lata-iskandar-hero.jpg', site).href } : {}),
+};
+const faqSchema = {
+  '@type': 'FAQPage',
+  mainEntity: t.faq.items.map((item) => ({
+    '@type': 'Question',
+    name: item.q,
+    acceptedAnswer: { '@type': 'Answer', text: item.a },
+  })),
+};
+const jsonLd = { '@context': 'https://schema.org', '@graph': [attraction, faqSchema] };
+---
+<!doctype html>
+<html lang={t.htmlLang}>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width" />
+    <title>{t.head.title}</title>
+    <meta name="description" content={t.head.description} />
+    <meta name="robots" content="index, follow, max-image-preview:large" />
+    <meta name="theme-color" content="#103A2F" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:image" content={socialImage} />
+    <meta property="og:type" content="website" />
+    <meta property="og:locale" content={t.ogLocale} />
+    <meta property="og:title" content={t.head.ogTitle} />
+    <meta property="og:description" content={t.head.ogDescription} />
+    <meta property="og:image" content={socialImage} />
+    {canonicalUrl && <meta property="og:url" content={canonicalUrl} />}
+    {canonicalUrl && <link rel="canonical" href={canonicalUrl} />}
+    {hreflangLinks.map((l) => (<link rel="alternate" hreflang={l.hreflang} href={l.href} />))}
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+    <script type="application/ld+json" set:html={JSON.stringify(jsonLd)}></script>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-HXM22WWPKP"></script>
+    <script is:inline>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-HXM22WWPKP');
+    </script>
+  </head>
+  <body>
+    <header id="atas" class="absolute inset-x-0 top-0 z-20 border-b border-white/15 text-white">
+      <div class="container-shell flex items-center justify-between py-4">
+        <Logo inverse />
+        <nav class="hidden items-center gap-6 text-sm font-bold md:flex" aria-label="Navigasi utama">
+          <a href="#rancang" class="hover:text-water-100">{t.nav.plan}</a>
+          <a href="#datang" class="hover:text-water-100">{t.nav.getting}</a>
+          <a href="#sekitar" class="hover:text-water-100">{t.nav.around}</a>
+          <a href="#faq" class="hover:text-water-100">{t.nav.faq}</a>
+        </nav>
+        <div class="flex items-center gap-4">
+          <nav class="flex items-center gap-1 text-xs font-extrabold" aria-label="Language">
+            {locales.map((l) => (
+              <a
+                href={localePath(l)}
+                aria-current={l === locale ? 'page' : undefined}
+                class:list={['rounded-full px-2.5 py-1 no-underline', l === locale ? 'bg-white text-forest-950' : 'text-white/80 hover:bg-white/15 hover:text-white']}
+              >{localeLabels[l]}</a>
+            ))}
+          </nav>
+          <a href={mapLink} target="_blank" rel="noopener noreferrer" class="rounded-full border border-white/35 bg-white/10 px-4 py-2 text-sm font-extrabold backdrop-blur hover:bg-white hover:text-forest-950">{t.nav.openMap}</a>
+        </div>
+      </div>
+    </header>
+
+    <main>
+      <section class="relative min-h-[720px] overflow-hidden bg-forest-950 text-white">
+        <img src="/images/lata-iskandar-hero.jpg" alt={t.hero.alt} width="1280" height="854" class="absolute inset-0 h-full w-full object-cover" fetchpriority="high" decoding="async" />
+        <div class="hero-scrim absolute inset-0"></div>
+        <div class="absolute inset-y-0 right-0 hidden w-[38%] contour opacity-25 lg:block"></div>
+        <div class="container-shell relative flex min-h-[720px] items-end pb-16 pt-32 md:pb-24">
+          <div class="max-w-3xl">
+            <div class="cascade-rule mb-7"></div>
+            <p class="eyebrow mb-4 text-water-100">{t.hero.eyebrow}</p>
+            <h1 class="max-w-[10ch] font-[var(--font-display)] text-[clamp(4.4rem,10vw,8.8rem)] leading-[.82] tracking-[-.055em]">{t.hero.h1}</h1>
+            <p class="mt-8 max-w-2xl text-lg leading-8 text-white/82 md:text-xl">{t.hero.lead}</p>
+            <div class="mt-9 flex flex-wrap gap-3 text-sm font-bold">
+              {t.hero.chips.map((chip) => (<span class="rounded-full bg-white/12 px-4 py-2 backdrop-blur">{chip}</span>))}
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section-pad bg-mist-50" id="rancang">
+        <div class="container-shell grid gap-12 lg:grid-cols-[.9fr_1.1fr] lg:items-start">
+          <div class="lg:sticky lg:top-8">
+            <p class="eyebrow text-clay-500">{t.plan.eyebrow}</p>
+            <h2 class="mt-4 font-[var(--font-display)] text-5xl leading-[.98] tracking-tight md:text-6xl">{t.plan.heading}</h2>
+            <p class="mt-6 max-w-xl text-lg leading-8 text-forest-900/75">{t.plan.lead}</p>
+          </div>
+          <div class="grid gap-5 sm:grid-cols-2">
+            {t.plan.cards.map((card, i) => (
+              <article class:list={['rounded-[2rem] p-7', planCardClasses[i], i % 2 === 1 ? 'sm:translate-y-8' : '']}>
+                <span class:list={['text-3xl', i === 1 ? 'text-water-300' : '']}>{['◌', '≈', 'P', '↗'][i]}</span>
+                <h3 class:list={['mt-8 text-xl font-black', i === 1 ? 'text-white' : '']}>{card.title}</h3>
+                <p class:list={['mt-3 leading-7', i === 1 ? 'text-white/72' : 'text-forest-900/70']}>{card.body}</p>
+              </article>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section class="section-pad overflow-hidden bg-forest-950 text-white">
+        <div class="container-shell grid gap-8 lg:grid-cols-[1.15fr_.85fr] lg:items-center">
+          <figure class="relative">
+            <img src="/images/lata-iskandar-portrait.jpg" alt={t.safety.portraitAlt} width="960" height="1185" loading="lazy" decoding="async" class="aspect-[4/5] w-full rounded-[2.5rem] object-cover" />
+            <figcaption class="absolute bottom-5 left-5 rounded-full bg-forest-950/75 px-4 py-2 text-xs font-bold backdrop-blur">{t.safety.figcaption}</figcaption>
+          </figure>
+          <div class="lg:pl-10">
+            <p class="eyebrow text-water-300">{t.safety.eyebrow}</p>
+            <h2 class="mt-4 font-[var(--font-display)] text-5xl leading-none md:text-6xl">{t.safety.heading}</h2>
+            <div class="mt-8 space-y-5 text-lg leading-8 text-white/72">
+              {t.safety.body.map((p) => (<p>{p}</p>))}
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section-pad bg-mist-100" id="datang">
+        <div class="container-shell">
+          <div class="max-w-3xl">
+            <p class="eyebrow text-clay-500">{t.getting.eyebrow}</p>
+            <h2 class="mt-4 font-[var(--font-display)] text-5xl leading-none md:text-6xl">{t.getting.heading}</h2>
+            <p class="mt-6 text-lg leading-8 text-forest-900/70">{t.getting.lead}</p>
+          </div>
+          <div class="mt-12 grid gap-5 lg:grid-cols-3">
+            {t.getting.cards.map((card) => (
+              <article class="paper-card rounded-[2rem] p-7">
+                <p class="eyebrow text-moss-500">{card.eyebrow}</p>
+                <h3 class="mt-3 text-2xl font-black">{card.title}</h3>
+                <p class="mt-4 leading-7 text-forest-900/70">{card.body}</p>
+              </article>
+            ))}
+          </div>
+          <div class="mt-5 rounded-[2rem] border border-forest-950/10 bg-white/55 p-6 md:flex md:items-center md:justify-between">
+            <div><p class="eyebrow text-clay-500">{t.getting.train.eyebrow}</p><p class="mt-2 font-bold">{t.getting.train.route}</p></div>
+            <p class="mt-3 max-w-lg text-sm leading-6 text-forest-900/65 md:mt-0">{t.getting.train.note}</p>
+          </div>
+        </div>
+      </section>
+
+      <section class="bg-mist-50 py-10">
+        <div class="container-shell overflow-hidden rounded-[2.5rem] border border-forest-950/10 bg-white p-3 shadow-xl shadow-forest-950/5">
+          <div class="flex flex-col gap-4 px-4 py-5 sm:flex-row sm:items-end sm:justify-between">
+            <div><p class="eyebrow text-clay-500">{t.mapCard.eyebrow}</p><h2 class="mt-2 font-[var(--font-display)] text-3xl">{t.mapCard.heading}</h2></div>
+            <a href={mapLink} target="_blank" rel="noopener noreferrer" class="font-extrabold text-forest-800 underline">{t.mapCard.link}</a>
+          </div>
+          <iframe src={mapEmbed} title={t.mapCard.iframeTitle} class="h-[460px] w-full rounded-[1.8rem] border-0" allowfullscreen loading="lazy" referrerpolicy="strict-origin-when-cross-origin"></iframe>
+        </div>
+      </section>
+
+      <section class="section-pad bg-mist-50" id="sekitar">
+        <div class="container-shell">
+          <div class="grid gap-12 lg:grid-cols-[.8fr_1.2fr]">
+            <div>
+              <p class="eyebrow text-clay-500">{t.around.eyebrow}</p>
+              <h2 class="mt-4 font-[var(--font-display)] text-5xl leading-none">{t.around.heading}</h2>
+            </div>
+            <div class="divide-y divide-forest-950/12 border-y border-forest-950/12">
+              {t.around.food.map((item) => (
+                <article class="grid gap-3 py-7 md:grid-cols-[1fr_1.6fr]">
+                  <h3 class="text-xl font-black">{item.title}</h3>
+                  <p class="leading-7 text-forest-900/70">{item.body}</p>
+                </article>
+              ))}
+            </div>
+          </div>
+
+          <div class="mt-24">
+            <p class="eyebrow text-clay-500">{t.around.nearbyEyebrow}</p>
+            <div class="mt-6 grid gap-5 lg:grid-cols-3">
+              {t.around.nearby.map((item, i) => (
+                <article class={nearbyCardClasses[i]}>
+                  <span class:list={['text-sm font-black', i === 2 ? 'text-water-300' : '']}>{String(i + 1).padStart(2, '0')}</span>
+                  <h3 class="mt-12 font-[var(--font-display)] text-3xl">{item.title}</h3>
+                  <p class:list={['mt-3 leading-7', i === 1 ? 'text-forest-950/70' : i === 2 ? 'text-white/70' : 'text-forest-900/70']}>{item.body}</p>
+                </article>
+              ))}
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section-pad bg-mist-100" id="faq">
+        <div class="container-shell grid gap-12 lg:grid-cols-[.72fr_1.28fr]">
+          <div><p class="eyebrow text-clay-500">{t.faq.eyebrow}</p><h2 class="mt-4 font-[var(--font-display)] text-5xl leading-none">{t.faq.heading}</h2></div>
+          <div class="space-y-3">
+            {t.faq.items.map((item) => (
+              <details class="group rounded-3xl border border-forest-950/10 bg-white px-6 py-5">
+                <summary class="flex cursor-pointer list-none items-center justify-between gap-4 font-black"><span>{item.q}</span><span class="plus grid h-8 w-8 shrink-0 place-items-center rounded-full bg-water-100 text-xl">+</span></summary>
+                <p class="max-w-2xl pt-4 leading-7 text-forest-900/70">{item.a}</p>
+              </details>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section class="relative overflow-hidden bg-forest-950 text-white">
+        <img src="/images/lata-iskandar-entrance.jpg" alt={t.cta.entranceAlt} width="1280" height="960" loading="lazy" decoding="async" class="absolute inset-0 h-full w-full object-cover opacity-35" />
+        <div class="absolute inset-0 bg-gradient-to-r from-forest-950 via-forest-950/85 to-forest-950/45"></div>
+        <div class="container-shell relative py-24 md:py-32">
+          <p class="eyebrow text-water-300">{t.cta.eyebrow}</p>
+          <h2 class="mt-5 max-w-3xl font-[var(--font-display)] text-5xl leading-none md:text-7xl">{t.cta.heading}</h2>
+          <a href={mapLink} target="_blank" rel="noopener noreferrer" class="mt-9 inline-flex rounded-full bg-mist-50 px-6 py-3 font-black text-forest-950 no-underline">{t.cta.button}</a>
+        </div>
+      </section>
+    </main>
+
+    <footer class="bg-[#061c17] py-10 text-white/65">
+      <div class="container-shell flex flex-col gap-8 lg:flex-row lg:items-end lg:justify-between">
+        <div><Logo inverse /><p class="mt-5 max-w-xl text-sm leading-6">{t.footer.about}</p></div>
+        <div class="max-w-lg text-xs leading-6 lg:text-right"><p>{t.footer.photos}</p><p class="mt-2">{t.footer.disclaimer}</p></div>
+      </div>
+    </footer>
+  </body>
+</html>

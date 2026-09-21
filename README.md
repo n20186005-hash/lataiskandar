@@ -36,6 +36,14 @@ SITE_URL=https://domain-sebenar-anda.my corepack pnpm build
 
 Jika `SITE_URL` kosong, projek masih boleh dibina. Tag canonical dan `og:url` tidak dikeluarkan, imej sosial menggunakan laluan relatif, JSON-LD tidak memasukkan URL mutlak, dan integrasi sitemap tidak diaktifkan. Tiada domain contoh dijadikan fallback.
 
+## HTTPS, canonical dan SEO
+
+- `site` di `astro.config.mjs` dikunci kepada `https://lataiskandar.com` (boleh diganti melalui `SITE_URL`). Dengan nilai ini setiap halaman mengeluarkan `canonical`, `og:url`, `hreflang` (`ms`, `en`, `zh-CN`, `x-default`) serta JSON-LD dengan URL mutlak, dan integrasi sitemap diaktifkan.
+- Laman tersedia dalam tiga bahasa: `/` (Bahasa Melayu), `/en/` (Inggeris), `/zh/` (Cina Ringkas), semuanya saling berpaut melalui `hreflang`.
+- Pengalihan HTTP → HTTPS 301 dilakukan di Cloudflare: hidupkan **Always Use HTTPS** pada zon ini di papan pemuka Cloudflare. Sebagai lapisan tambahan, `public/_redirects` mengandungi peraturan 301 untuk `http://` dan `www`, manakala HSTS dihantar melalui `public/_headers`.
+- Peta laman terhasil di `https://lataiskandar.com/sitemap-index.xml`; hantar URL ini ke Google Search Console.
+- JSON-LD setiap halaman mengandungi `@graph` dengan `TouristAttraction` + `LocalBusiness` (nama, alamat, koordinat, `isAccessibleForFree`) dan `FAQPage`. `aggregateRating` sengaja **tidak** disertakan: laman ini tidak mengumpul atau memaparkan sebarang ulasan, dan memasukkan penarafan tanpa sumber yang sah melanggar polisi data berstruktur Google.
+
 ## Cloudflare Workers
 
 Laman ini dijana sepenuhnya sebagai fail statik, jadi adapter SSR tidak diperlukan. `wrangler.jsonc` menerbitkan folder `./dist` melalui Workers Static Assets.
