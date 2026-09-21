@@ -61,6 +61,7 @@ const page = [
 ].map(read).join('\n');
 const required = [
   'lang={t.htmlLang}', 'TouristAttraction', 'LocalBusiness', 'FAQPage', 'isAccessibleForFree', 'openingHours',
+  'og:site_name', '{t.site.title}', 'Lata Iskandar Tapah Panduan Pelancongan', 'Lata Iskandar Tapah Travel Guide', 'Lata Iskandar 打巴旅游指南',
   'Bayaran / kos', 'Masa terbaik', 'Parkir', 'Tempoh lawatan', 'Sultan Azlan Shah', 'Terminal Bas Tapah',
   'Teksi / e-hailing', 'Tapah Road', 'Makan sekitar', 'Tempat menarik berdekatan', 'Bukan laman rasmi',
   'G-HXM22WWPKP', '!1sms!2smy', 'hreflang', 'x-default', "locale=\"ms\"", "locale=\"en\"", "locale=\"zh\""

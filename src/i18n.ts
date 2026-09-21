@@ -36,8 +36,11 @@ export interface ListItem {
 export interface Translation {
   htmlLang: string;
   ogLocale: string;
-  head: {
+  site: {
+    name: string;
     title: string;
+  };
+  head: {
     description: string;
     ogTitle: string;
     ogDescription: string;
@@ -111,8 +114,11 @@ export interface Translation {
 const ms: Translation = {
   htmlLang: 'ms',
   ogLocale: 'ms_MY',
+  site: {
+    name: 'Lata Iskandar',
+    title: 'Lata Iskandar Tapah Panduan Pelancongan: Air Terjun & Parkir',
+  },
   head: {
-    title: 'Lata Iskandar Tapah: Panduan Air Terjun, Parkir & Cara Ke Sini (2026)',
     description:
       'Perjalanan ke Cameron Highlands? Singgah di Air Terjun Lata Iskandar di Tapah. Semak laluan Route 59, parkir, kemudahan gerai, waktu terbaik dan tips keselamatan terkini.',
     ogTitle: 'Lata Iskandar — Air terjun di tengah perjalanan',
@@ -280,8 +286,11 @@ const ms: Translation = {
 const en: Translation = {
   htmlLang: 'en',
   ogLocale: 'en_US',
+  site: {
+    name: 'Lata Iskandar',
+    title: 'Lata Iskandar Tapah Travel Guide: Waterfall & Parking',
+  },
   head: {
-    title: 'Lata Iskandar Waterfall Tapah: Guide, Parking & How to Get There (2026)',
     description:
       'Driving to Cameron Highlands? Stop at Lata Iskandar waterfall on Route 59 near Tapah, Perak. Check directions, parking, stall facilities, best times and safety tips.',
     ogTitle: 'Lata Iskandar — a waterfall midway on your drive',
@@ -450,8 +459,11 @@ const en: Translation = {
 const zh: Translation = {
   htmlLang: 'zh-CN',
   ogLocale: 'zh_CN',
+  site: {
+    name: 'Lata Iskandar',
+    title: 'Lata Iskandar 打巴旅游指南：瀑布与停车',
+  },
   head: {
-    title: 'Lata Iskandar 瀑布（打巴）：景点攻略、停车与交通指南（2026）',
     description:
       '前往金马仑高原？别错过打巴（Tapah）Route 59 沿线的 Lata Iskandar 瀑布。查看路线方向、停车、摊位设施、最佳到访时间与安全提示。',
     ogTitle: 'Lata Iskandar — 旅途中的瀑布',
