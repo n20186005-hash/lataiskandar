@@ -108,6 +108,7 @@ export interface Translation {
     photos: string;
     disclaimer: string;
   };
+  facts: { heading: string; snapshot: string; caution: string; sources: string };
   schemaDescription: string;
 }
 
@@ -133,7 +134,7 @@ const ms: Translation = {
   },
   hero: {
     eyebrow: 'Federal Route 59 · Tapah, Perak',
-    h1: 'Berhenti. Dengar. Sejuk.',
+    h1: 'Lata Iskandar, Tapah.',
     lead: 'Lata Iskandar ialah air terjun yang muncul hampir terus di tepi jalan lama Tapah–Cameron Highlands — tempat untuk merehatkan kaki, merasa udara hutan dan menyambung perjalanan dengan lebih segar.',
     chips: ['Air terjun tepi jalan', 'Singgah ± 30–60 min', 'Gerai & kraftangan'],
     alt: 'Air terjun Lata Iskandar mengalir di celah batu dan hutan tropika',
@@ -145,7 +146,7 @@ const ms: Translation = {
     cards: [
       {
         title: 'Bayaran / kos',
-        body: 'Kemasukan ke kawasan air terjun lazimnya percuma. Bawa wang kecil untuk tandas, makanan, buah-buahan atau kraftangan di gerai.',
+        body: 'Semak papan tanda untuk aturan akses dan sebarang bayaran semasa. Ketersediaan gerai dan kemudahan boleh berubah; sediakan wang kecil jika diperlukan.',
       },
       {
         title: 'Masa terbaik',
@@ -195,12 +196,12 @@ const ms: Translation = {
     train: {
       eyebrow: 'Datang dengan kereta api?',
       route: 'KTM ETS → Tapah Road → teksi / kereta ke Tapah → Route 59.',
-      note: 'Tapah Road ialah stesen kereta api terdekat yang praktikal; rancang sambungan darat lebih awal.',
+      note: 'Jika tiba di Tapah Road, atur sambungan jalan raya lebih awal dan semak perkhidmatan tren semasa.',
     },
   },
   mapCard: {
     eyebrow: 'Peta',
-    heading: 'Lata Iskandar, Exit 59',
+    heading: 'Lata Iskandar · Tapah · Route 59',
     link: 'Buka arahan di Google Maps ↗',
     iframeTitle: 'Peta Google Lata Iskandar',
   },
@@ -213,12 +214,12 @@ const ms: Translation = {
         body: 'Pilihan paling dekat untuk minuman, buah tempatan, snek ringkas dan kraftangan sebelum menyambung perjalanan.',
       },
       {
-        title: 'Warisan Rosyadah · Tapah',
+        title: 'Makan di Tapah',
         body: 'Singgah di bandar Tapah untuk hidangan Melayu seperti ikan bakar dan nasi campur.',
       },
       {
-        title: 'Kedai Laksa Cik Ti · Tapah',
-        body: 'Pilihan santai untuk laksa dan makan ringan sebelum naik atau selepas turun dari laluan bukit.',
+        title: 'Bekalan perjalanan',
+        body: 'Bawa air minuman dan makanan ringan jika perlu; jangan bergantung pada semua gerai dibuka ketika ketibaan anda.',
       },
     ],
     nearbyEyebrow: 'Tempat menarik berdekatan',
@@ -243,11 +244,11 @@ const ms: Translation = {
     items: [
       {
         q: 'Adakah masuk ke Lata Iskandar berbayar?',
-        a: 'Kunjungan ke kawasan air terjun lazimnya tanpa tiket masuk. Sediakan wang kecil untuk pembelian di gerai atau kemudahan seperti tandas, dan semak papan tanda di lokasi kerana aturan boleh berubah.',
+        a: 'Bayaran semasa belum disahkan. Semak papan tanda dan aturan di lokasi; jangan anggap akses atau kemudahan sentiasa percuma.',
       },
       {
         q: 'Boleh mandi di air terjun?',
-        a: 'Ramai pengunjung bermain air di bahagian cetek. Pilih kawasan yang tenang, awasi kanak-kanak dan elakkan masuk ketika hujan lebat atau arus kelihatan deras.',
+        a: 'Keselamatan untuk mandi tidak disahkan. Ikut papan tanda dan arahan tempatan; elakkan sungai semasa hujan atau arus meningkat, dan awasi kanak-kanak dari tempat yang stabil.',
       },
       {
         q: 'Berapa lama patut singgah?',
@@ -280,6 +281,7 @@ const ms: Translation = {
     disclaimer:
       'Maklumat waktu, akses, bayaran dan kemudahan boleh berubah; semak keadaan di lokasi sebelum perjalanan.',
   },
+  facts: { heading: 'Lokasi dan semakan lawatan', snapshot: 'Disemak 19 Oktober 2026: Google Maps menyenaraikan 4.4/5 daripada 6,042 ulasan; alamat Exit 59, 35000 Tapah, Perak. Ini penarafan di Google Maps, bukan ulasan laman ini.', caution: 'Maps menyenaraikan buka 24 jam pada tarikh semakan. Ini tidak menjamin akses atau keselamatan pada waktu malam. Rancang lawatan ketika terang dan semak cuaca, papan tanda serta aturan semasa.', sources: 'Sumber' },
   schemaDescription: 'Air terjun tepi Laluan Persekutuan 59 di antara Tapah dan Cameron Highlands, Perak.',
 };
 
@@ -305,7 +307,7 @@ const en: Translation = {
   },
   hero: {
     eyebrow: 'Federal Route 59 · Tapah, Perak',
-    h1: 'Stop. Listen. Cool down.',
+    h1: 'Lata Iskandar, Tapah.',
     lead: 'Lata Iskandar is a waterfall that appears almost beside the old Tapah–Cameron Highlands road — a place to rest your legs, breathe the forest air and continue the drive feeling fresher.',
     chips: ['Roadside waterfall', 'Stop for ± 30–60 min', 'Stalls & handicrafts'],
     alt: 'Lata Iskandar waterfall flowing between rocks and tropical rainforest',
@@ -317,7 +319,7 @@ const en: Translation = {
     cards: [
       {
         title: 'Entry / cost',
-        body: 'Entering the waterfall area is usually free of charge. Bring small change for toilets, food, fruit or handicrafts at the stalls.',
+        body: 'Check signs for current access arrangements and any fees. Stall and facility availability can change; bring small change if needed.',
       },
       {
         title: 'Best time',
@@ -367,12 +369,12 @@ const en: Translation = {
     train: {
       eyebrow: 'Arriving by train?',
       route: 'KTM ETS → Tapah Road → taxi / car to Tapah → Route 59.',
-      note: 'Tapah Road is the nearest practical railway station; plan the land connection in advance.',
+      note: 'If arriving at Tapah Road, arrange the onward road transfer in advance and check current train services.',
     },
   },
   mapCard: {
     eyebrow: 'Map',
-    heading: 'Lata Iskandar, Exit 59',
+    heading: 'Lata Iskandar · Tapah · Route 59',
     link: 'Open directions in Google Maps ↗',
     iframeTitle: 'Google Map of Lata Iskandar',
   },
@@ -385,12 +387,12 @@ const en: Translation = {
         body: 'The closest option for drinks, local fruit, simple snacks and handicrafts before continuing your journey.',
       },
       {
-        title: 'Warisan Rosyadah · Tapah',
+        title: 'Food in Tapah',
         body: 'Stop in the town of Tapah for Malay dishes such as grilled fish and mixed rice (nasi campur).',
       },
       {
-        title: 'Kedai Laksa Cik Ti · Tapah',
-        body: 'A casual choice for laksa and light bites before going up or after coming down the hill road.',
+        title: 'Supplies for the drive',
+        body: 'Bring drinking water and snacks if needed; do not rely on every stall being open when you arrive.',
       },
     ],
     nearbyEyebrow: 'Nearby attractions',
@@ -415,11 +417,11 @@ const en: Translation = {
     items: [
       {
         q: 'Is there an entrance fee for Lata Iskandar?',
-        a: 'Visiting the waterfall area is usually free of charge. Keep some small change for stalls or facilities such as toilets, and check signs on site as arrangements can change.',
+        a: 'Current fees have not been confirmed. Check signs and arrangements on site; do not assume access or facilities are always free.',
       },
       {
         q: 'Can you swim at the waterfall?',
-        a: 'Many visitors play in the water in the shallow sections. Choose calm spots, watch children closely and avoid entering during heavy rain or when the current looks fast.',
+        a: 'Swimming safety has not been confirmed. Follow local signs and instructions; avoid the river during rain or rising flows, and supervise children from stable ground.',
       },
       {
         q: 'How long should a stop be?',
@@ -453,6 +455,7 @@ const en: Translation = {
     disclaimer:
       'Opening times, access, fees and facilities can change; check conditions on site before travelling.',
   },
+  facts: { heading: 'Location and visit check', snapshot: 'Checked 19 October 2026: Google Maps lists 4.4/5 from 6,042 reviews and the address Exit 59, 35000 Tapah, Perak. This is a Google Maps rating, not reviews collected by this site.', caution: 'Maps listed 24-hour opening on the check date. This does not guarantee night-time access or safety. Plan a daylight visit and check weather, local signs and current arrangements.', sources: 'Sources' },
   schemaDescription: 'A roadside waterfall on Federal Route 59 between Tapah and Cameron Highlands, Perak, Malaysia.',
 };
 
@@ -478,7 +481,7 @@ const zh: Translation = {
   },
   hero: {
     eyebrow: 'Federal Route 59 · 霹雳州打巴（Tapah）',
-    h1: '停一停。听水声。透心凉。',
+    h1: 'Lata Iskandar 打巴瀑布。',
     lead: 'Lata Iskandar 是几乎就贴着打巴—金马仑高原旧公路出现的瀑布——让双腿歇一歇、呼吸森林空气，再以更清爽的状态继续旅程。',
     chips: ['路边瀑布', '停留约 30–60 分钟', '摊位与手工艺品'],
     alt: 'Lata Iskandar 瀑布在岩石与热带雨林之间流下',
@@ -490,7 +493,7 @@ const zh: Translation = {
     cards: [
       {
         title: '门票 / 费用',
-        body: '进入瀑布区域通常无需门票。可准备一些零钱，用于摊位的洗手间、食物、水果或手工艺品。',
+        body: '请查看现场告示，确认当前通行安排与收费。摊位和设施的开放情况可能变化，可按需准备零钱。',
       },
       {
         title: '最佳时间',
@@ -540,12 +543,12 @@ const zh: Translation = {
     train: {
       eyebrow: '搭火车前往？',
       route: 'KTM ETS → Tapah Road 站 → 出租车/汽车至打巴 → Route 59。',
-      note: 'Tapah Road 是距离最近且较为实际的火车站；请提前规划接驳交通。',
+      note: '若乘火车抵达 Tapah Road，请提前安排公路接驳，并核实当前列车服务。',
     },
   },
   mapCard: {
     eyebrow: '地图',
-    heading: 'Lata Iskandar，Exit 59',
+    heading: 'Lata Iskandar · 打巴 · Route 59',
     link: '在 Google Maps 打开导航 ↗',
     iframeTitle: 'Lata Iskandar 的 Google 地图',
   },
@@ -558,12 +561,12 @@ const zh: Translation = {
         body: '距离最近的选择：饮料、本地水果、简单小吃和手工艺品，适合继续行程前补给。',
       },
       {
-        title: 'Warisan Rosyadah · Tapah',
+        title: '打巴镇用餐',
         body: '顺路在打巴镇上品尝马来菜，如烤鱼和什锦饭（nasi campur）。',
       },
       {
-        title: 'Kedai Laksa Cik Ti · Tapah',
-        body: '上山前或下山后，来一碗叻沙、吃点轻食的轻松之选。',
+        title: '行程补给',
+        body: '可按需携带饮用水与零食，不要假定到访时所有摊位都营业。',
       },
     ],
     nearbyEyebrow: '附近景点',
@@ -588,11 +591,11 @@ const zh: Translation = {
     items: [
       {
         q: '进入 Lata Iskandar 需要门票吗？',
-        a: '游览瀑布区域通常无需门票。可备些零钱用于摊位消费或洗手间等设施；现场规则可能调整，请以现场告示为准。',
+        a: '当前收费尚未核实。请以现场告示与通行安排为准，不要假定景区或设施始终免费。',
       },
       {
         q: '可以在瀑布玩水吗？',
-        a: '许多游客会在水浅处玩水。请选择水流平缓的区域，看好儿童，避免在大雨或水流湍急时下水。',
+        a: '此处是否适合游泳尚未确认。请遵守现场告示与指引，雨天或水流上涨时远离河道，并在稳固地面上照看儿童。',
       },
       {
         q: '建议停留多久？',
@@ -624,6 +627,7 @@ const zh: Translation = {
       '照片：Ronykr（CC BY-SA 4.0）、Ghaydaa Sayed（CC BY-SA 4.0）、Sasha India（CC BY 2.0），来自 Wikimedia Commons。照片已在本地项目中存储。',
     disclaimer: '开放时间、通行方式、收费与设施可能变动；出行前请在现场确认实际情况。',
   },
+  facts: { heading: '位置与到访信息核查', snapshot: '核查日期：2026年10月19日。Google Maps 显示 4.4/5 分、6,042 条评价，地址为 Exit 59, 35000 Tapah, Perak。此为 Google Maps 评分，并非本站收集的评价。', caution: '核查当日 Maps 列为24小时开放，这不代表夜间一定可以进入或安全。建议白天到访，并确认天气、现场告示与当前安排。', sources: '资料来源' },
   schemaDescription: '位于霹雳州打巴与金马仑高原之间、联邦 59 号公路（Route 59）沿线的路边瀑布。',
 };
 

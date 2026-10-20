@@ -1,55 +1,9 @@
-# Validation status
+# Local validation
 
-Verified locally on Windows with Node 24.19.0 (`C:\Users\dcc\.workbuddy\binaries\node\versions\node-v24.19.0-win-x64`) and pnpm 9.15.5 (`node $env:LOCALAPPDATA\pnpm\.tools\pnpm\9.15.5\node_modules\pnpm\bin\pnpm.cjs install --config.node-linker=hoisted`), with `NODE_OPTIONS` / `CODEBUDDY_SAFE_DELETE_SHIM_DIR` / `GENIE_TRASH_DIR` cleared before every command.
+Run `corepack pnpm install --frozen-lockfile`, `corepack pnpm check`, `corepack pnpm preflight:static` and `corepack pnpm build` from the repository root. The project pins its tool versions in `package.json`. Set `ASTRO_TELEMETRY_DISABLED=1` when the runtime does not permit telemetry configuration writes.
 
-## Clean install
+The current local checks pass: Astro reports zero errors, warnings or hints; the static build produces the Malay, English and Chinese guides plus a noindex 404 page. Generated output checks cover unique titles and descriptions, one H1, self canonical URLs, reciprocal language alternates, sitemap membership, internal links and anchors, image files, valid JSON-LD and FAQ parity. The 404 page is excluded from the sitemap.
 
-```bash
-node .../pnpm.cjs install --config.node-linker=hoisted --config.engine-strict=false
-```
+Attraction data uses `TouristAttraction` without business, rating, opening-hours or free-entry claims. Dated Google Maps observations appear visibly with attribution and an explicit warning that listed hours do not establish night-time access or safety. Public source links are available on every language page.
 
-Result: `Done in 9m 57.4s`, 447 packages added, exit 0. No `--frozen-lockfile` deviation: pnpm reported `Lockfile is up to date, resolution step is skipped`.
-
-## Static preflight
-
-```bash
-node scripts/static-preflight.mjs
-```
-
-Passed all checks (`STATIC PREFLIGHT COMPLETE`, exit 0):
-
-- pinned Node/pnpm/`.npmrc`
-- exact direct dependency versions
-- no `pnpm-workspace.yaml`
-- pnpm-lock importer specifiers match `package.json`
-- no placeholder/example URLs in `src`, `public`, README, config or `wrangler.jsonc`
-- required page tokens: `lang={t.htmlLang}`, `TouristAttraction`, `LocalBusiness`, `FAQPage`, `isAccessibleForFree`, `openingHours`, Malay content strings, GA4 container `G-HXM22WWPKP`, `!1sms!2smy` map locale, `hreflang`, `x-default`, `locale="ms|en|zh"`
-- canonical remains conditional on `Astro.site`
-- `https://lataiskandar.com` pinned in `astro.config.mjs`, sitemap integration present
-- `public/_headers` (HSTS) and `public/_redirects` (301 http→https, www→apex) present
-- all local photos/logo/favicon assets non-empty
-
-Note: the preflight reads text files with `\r\n` normalised to `\n`, so a CRLF-checked-out `pnpm-lock.yaml` no longer breaks the lockfile-importer regex.
-
-## Astro build
-
-```bash
-node node_modules\astro\bin\astro.mjs build
-```
-
-Result: exit 0, `3 page(s) built`, output at `dist/`:
-
-- `dist/index.html`, `dist/en/index.html`, `dist/zh/index.html`
-- `dist/robots.txt` ending with `Sitemap: https://lataiskandar.com/sitemap-index.xml`
-- `dist/sitemap-index.xml` → `https://lataiskandar.com/sitemap-0.xml` with `/`, `/en/`, `/zh/`
-- `dist/_headers`, `dist/_redirects`, images and `_astro/GuidePage.*.css`
-
-Verified in every built page: self-referencing canonical (`https://lataiskandar.com/`, `/en/`, `/zh/`), the four `hreflang` links, `og:*`, `twitter:card=summary_large_image`, `robots: index, follow, max-image-preview:large`, JSON-LD `@graph` with `TouristAttraction` + `LocalBusiness` and `FAQPage` (6 questions per locale), no `aggregateRating`, and no `example.com` / `localhost` strings.
-
-## Astro check
-
-```bash
-CI=true node node_modules\astro\bin\astro.mjs check
-```
-
-Result: `Result (10 files): 0 errors, 0 warnings, 2 hints`, exit 0. The hints are only about `<script>` tags being treated as `is:inline` (the JSON-LD block and the GA4 loader), which is intended.
+Worker `src/worker.js` runs before the `ASSETS` binding and redirects HTTP/www requests to the HTTPS apex with paths and queries intact. Static Assets uses `404-page` handling; 404 responses retain their status and receive a noindex response header. Wrangler dry-run succeeds. Local Worker HTTP checks confirm guide responses, canonical redirects and 404/noindex. The bundled runtime was tested with a local compatibility-date override of 2026-08-08; production configuration remains 2026-08-13. Production status codes, redirects, deployed commit and rendered appearance must be verified after release; local checks do not establish production acceptance.

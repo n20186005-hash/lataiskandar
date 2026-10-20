@@ -60,7 +60,7 @@ const page = [
   'src/pages/zh/index.astro',
 ].map(read).join('\n');
 const required = [
-  'lang={t.htmlLang}', 'TouristAttraction', 'LocalBusiness', 'FAQPage', 'isAccessibleForFree', 'openingHours',
+  'lang={t.htmlLang}', 'TouristAttraction', 'FAQPage',
   'og:site_name', '{t.site.title}', 'Lata Iskandar Tapah Panduan Pelancongan', 'Lata Iskandar Tapah Travel Guide', 'Lata Iskandar 打巴旅游指南',
   'Bayaran / kos', 'Masa terbaik', 'Parkir', 'Tempoh lawatan', 'Sultan Azlan Shah', 'Terminal Bas Tapah',
   'Teksi / e-hailing', 'Tapah Road', 'Makan sekitar', 'Tempat menarik berdekatan', 'Bukan laman rasmi',
@@ -73,12 +73,13 @@ if (!astroConfig.includes("'https://lataiskandar.com'")) fail('site URL must be 
 if (!astroConfig.includes('sitemap()')) fail('sitemap integration missing');
 if (!exists('public/_headers')) fail('missing public/_headers');
 if (!read('public/_headers').includes('Strict-Transport-Security')) fail('HSTS header missing in public/_headers');
-if (!exists('public/_redirects')) fail('missing public/_redirects');
-for (const rule of ['http://lataiskandar.com/*', 'https://lataiskandar.com/:splat 301']) {
-  if (!read('public/_redirects').includes(rule)) fail(`_redirects missing rule: ${rule}`);
-}
+if (exists('public/_redirects')) fail('canonical redirects must use the Worker');
+if (!read('src/worker.js').includes('Response.redirect(url.href, 301)')) fail('canonical Worker missing');
+if (!read('wrangler.jsonc').includes('\"run_worker_first\": true')) fail('Worker must run before assets');
 if (JSON.parse(read('package.json')).scripts['build'] !== 'astro build') fail('build script drifted');
-pass('required content, schema, GA4, local map locale, hreflang, and URL fallbacks present');
+if (/openingHours:|isAccessibleForFree:|aggregateRating:/.test(read('src/components/GuidePage.astro'))) fail('unsupported attraction claims');
+if (!read('src/pages/404.astro').includes('noindex')) fail('404 must be noindex');
+pass('required content, supported schema, GA4, language alternates and 404 present');
 
 for (const image of ['public/images/lata-iskandar-hero.jpg','public/images/lata-iskandar-portrait.jpg','public/images/lata-iskandar-entrance.jpg','public/favicon.svg','public/favicon-16x16.png','public/favicon-32x32.png','public/apple-touch-icon.png','public/logo.svg']) {
   if (!exists(image) || fs.statSync(path.join(root,image)).size === 0) fail(`missing asset ${image}`);
