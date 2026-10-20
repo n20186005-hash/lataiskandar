@@ -90,26 +90,26 @@ const jsonLd = { '@context': 'https://schema.org', '@graph': [attraction, faqSch
     </script>
   </head>
   <body>
-    <header id="atas" class="absolute inset-x-0 top-0 z-20 border-b border-white/15 text-white">
-      <div class="container-shell flex items-center justify-between py-4">
+    <header id="atas" class="relative z-20 border-b border-white/15 bg-forest-950 text-white lg:absolute lg:inset-x-0 lg:top-0 lg:bg-transparent">
+      <div class="container-shell flex flex-wrap items-center justify-between gap-4 py-4">
         <Logo inverse locale={locale} />
-        <nav class="hidden items-center gap-6 text-sm font-bold md:flex" aria-label={locale === 'ms' ? 'Navigasi utama' : locale === 'en' ? 'Main navigation' : '主导航'}>
-          <a href="#rancang" class="hover:text-water-100">{t.nav.plan}</a>
-          <a href="#datang" class="hover:text-water-100">{t.nav.getting}</a>
-          <a href="#sekitar" class="hover:text-water-100">{t.nav.around}</a>
-          <a href="#faq" class="hover:text-water-100">{t.nav.faq}</a>
+        <nav class="order-last grid w-full grid-cols-2 gap-2 border-t border-white/15 pt-3 text-sm font-bold lg:order-none lg:flex lg:w-auto lg:items-center lg:gap-6 lg:border-0 lg:pt-0" aria-label={locale === 'ms' ? 'Navigasi utama' : locale === 'en' ? 'Main navigation' : '主导航'}>
+          <a href="#rancang" class="flex min-h-11 items-center rounded-xl px-3 hover:bg-white/10 hover:text-water-100 lg:px-0">{t.nav.plan}</a>
+          <a href="#datang" class="flex min-h-11 items-center rounded-xl px-3 hover:bg-white/10 hover:text-water-100 lg:px-0">{t.nav.getting}</a>
+          <a href="#sekitar" class="flex min-h-11 items-center rounded-xl px-3 hover:bg-white/10 hover:text-water-100 lg:px-0">{t.nav.around}</a>
+          <a href="#faq" class="flex min-h-11 items-center rounded-xl px-3 hover:bg-white/10 hover:text-water-100 lg:px-0">{t.nav.faq}</a>
         </nav>
-        <div class="flex items-center gap-4">
+        <div class="flex w-full items-center justify-between gap-3 sm:w-auto">
           <nav class="flex items-center gap-1 text-xs font-extrabold" aria-label="Language">
             {locales.map((l) => (
               <a
                 href={localePath(l)}
                 aria-current={l === locale ? 'page' : undefined}
-                class:list={['rounded-full px-2.5 py-1 no-underline', l === locale ? 'bg-white text-forest-950' : 'text-white/80 hover:bg-white/15 hover:text-white']}
+                class:list={['inline-flex min-h-11 min-w-11 items-center justify-center rounded-full px-3 py-2 no-underline', l === locale ? 'bg-white text-forest-950' : 'text-white/80 hover:bg-white/15 hover:text-white']}
               >{localeLabels[l]}</a>
             ))}
           </nav>
-          <a href={mapLink} target="_blank" rel="noopener noreferrer" class="rounded-full border border-white/35 bg-white/10 px-4 py-2 text-sm font-extrabold backdrop-blur hover:bg-white hover:text-forest-950">{t.nav.openMap}</a>
+          <a href={mapLink} target="_blank" rel="noopener noreferrer" class="inline-flex min-h-11 shrink-0 items-center rounded-full border border-white/35 bg-white/10 px-4 py-2 text-sm font-extrabold backdrop-blur hover:bg-white hover:text-forest-950">{t.nav.openMap}</a>
         </div>
       </div>
     </header>
