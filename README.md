@@ -1,6 +1,6 @@
 # Lata Iskandar — Astro + Tailwind CSS + Cloudflare Workers
 
-Laman satu halaman berbahasa Melayu untuk Lata Iskandar, Tapah, Perak. Reka bentuk berasaskan suasana hutan hujan, aliran air dan hentian tepi Route 59; foto sebenar disimpan secara tempatan dalam projek.
+Panduan tiga bahasa (Melayu, Inggeris dan Cina Ringkas) untuk Lata Iskandar, Tapah, Perak. Reka bentuk berasaskan suasana hutan hujan, aliran air dan hentian tepi Route 59; foto sebenar disimpan secara tempatan dalam projek.
 
 ## Versi terkunci
 
@@ -34,15 +34,15 @@ URL laman hanya datang daripada medan `site` Astro, yang dibekalkan melalui `SIT
 SITE_URL=https://domain-sebenar-anda.my corepack pnpm build
 ```
 
-Jika `SITE_URL` kosong, projek masih boleh dibina. Tag canonical dan `og:url` tidak dikeluarkan, imej sosial menggunakan laluan relatif, JSON-LD tidak memasukkan URL mutlak, dan integrasi sitemap tidak diaktifkan. Tiada domain contoh dijadikan fallback.
+Jika `SITE_URL` kosong, domain produksi `https://lataiskandar.com` digunakan untuk canonical, Open Graph, JSON-LD dan sitemap.
 
 ## HTTPS, canonical dan SEO
 
 - `site` di `astro.config.mjs` dikunci kepada `https://lataiskandar.com` (boleh diganti melalui `SITE_URL`). Dengan nilai ini setiap halaman mengeluarkan `canonical`, `og:url`, `hreflang` (`ms`, `en`, `zh-CN`, `x-default`) serta JSON-LD dengan URL mutlak, dan integrasi sitemap diaktifkan.
 - Laman tersedia dalam tiga bahasa: `/` (Bahasa Melayu), `/en/` (Inggeris), `/zh/` (Cina Ringkas), semuanya saling berpaut melalui `hreflang`.
-- Pengalihan HTTP → HTTPS 301 dilakukan di Cloudflare: hidupkan **Always Use HTTPS** pada zon ini di papan pemuka Cloudflare. Sebagai lapisan tambahan, `public/_redirects` mengandungi peraturan 301 untuk `http://` dan `www`, manakala HSTS dihantar melalui `public/_headers`.
+- Worker `src/worker.js` menjalankan 301 HTTP/www ke HTTPS domain utama sambil mengekalkan laluan dan query. `run_worker_first` memastikan pengalihan berlaku sebelum aset; respons 404 kekal 404 dengan `X-Robots-Tag: noindex, follow`. HSTS dihantar melalui `public/_headers`.
 - Peta laman terhasil di `https://lataiskandar.com/sitemap-index.xml`; hantar URL ini ke Google Search Console.
-- JSON-LD setiap halaman mengandungi `@graph` dengan `TouristAttraction` + `LocalBusiness` (nama, alamat, koordinat, `isAccessibleForFree`) dan `FAQPage`. `aggregateRating` sengaja **tidak** disertakan: laman ini tidak mengumpul atau memaparkan sebarang ulasan, dan memasukkan penarafan tanpa sumber yang sah melanggar polisi data berstruktur Google.
+- JSON-LD setiap halaman mengandungi `@graph` dengan `TouristAttraction` (nama, alamat, koordinat) dan `FAQPage`. `aggregateRating` sengaja **tidak** disertakan: laman ini tidak mengumpul atau memaparkan sebarang ulasan, dan memasukkan penarafan tanpa sumber yang sah melanggar polisi data berstruktur Google.
 
 ## Cloudflare Workers
 

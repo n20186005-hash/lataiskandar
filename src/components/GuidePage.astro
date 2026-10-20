@@ -13,8 +13,8 @@ const t = translations[locale];
 const site = Astro.site;
 const canonicalUrl = site ? new URL(Astro.url.pathname, site).href : undefined;
 const socialImage = site ? new URL('/images/lata-iskandar-hero.jpg', site).href : '/images/lata-iskandar-hero.jpg';
-const mapLink = 'https://www.google.com/maps/search/?api=1&query=Lata%20Iskandar%2C%20Exit%2059%2C%2035000%20Tapah%2C%20Perak%2C%20Malaysia';
-const mapEmbed = 'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3978.459907179805!2d101.32229491213477!3d4.324371395631466!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x31caffe91a7d7a6b%3A0x94b3977f44639a57!2sLata%20Iskandar!5e0!3m2!1sms!2smy!4v1786602278377!5m2!1sms!2smy';
+const mapLink = 'https://maps.app.goo.gl/91HzKTS7PoVpMsj99';
+const mapEmbed = 'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3978.459907179805!2d101.3248752!3d4.3243714!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x31caffe91a7d7a6b%3A0x94b3977f44639a57!2sLata%20Iskandar!5e0!3m2!1sms!2smy!4v1786602278377!5m2!1sms!2smy';
 
 const hreflangLinks = site
   ? [
@@ -30,21 +30,19 @@ const planCardClasses = ['paper-card', 'bg-forest-900 text-white', 'bg-water-100
 const nearbyCardClasses = ['rounded-[2rem] bg-water-100 p-7', 'rounded-[2rem] bg-clay-400 p-7 text-forest-950', 'rounded-[2rem] bg-forest-900 p-7 text-white'];
 
 const attraction = {
-  '@type': ['TouristAttraction', 'LocalBusiness'],
+  '@type': 'TouristAttraction',
   '@id': site ? `${new URL('/', site).href}#lata-iskandar` : '#lata-iskandar',
   name: 'Lata Iskandar',
   description: t.schemaDescription,
   address: {
     '@type': 'PostalAddress',
-    streetAddress: 'Exit 59, Laluan Persekutuan 59',
+    streetAddress: 'Exit 59',
     addressLocality: 'Tapah',
     addressRegion: 'Perak',
     postalCode: '35000',
     addressCountry: 'MY',
   },
-  geo: { '@type': 'GeoCoordinates', latitude: 4.324371395631466, longitude: 101.32229491213477 },
-  openingHours: 'Mo-Su 00:00-23:59',
-  isAccessibleForFree: true,
+  geo: { '@type': 'GeoCoordinates', latitude: 4.3243714, longitude: 101.3248752 },
   ...(canonicalUrl ? { url: canonicalUrl } : {}),
   ...(site ? { image: new URL('/images/lata-iskandar-hero.jpg', site).href } : {}),
 };
@@ -82,8 +80,8 @@ const jsonLd = { '@context': 'https://schema.org', '@graph': [attraction, faqSch
     <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
     <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
     <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
-    <script type="application/ld+json" set:html={JSON.stringify(jsonLd)}></script>
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-HXM22WWPKP"></script>
+    <script is:inline type="application/ld+json" set:html={JSON.stringify(jsonLd)}></script>
+    <script is:inline async src="https://www.googletagmanager.com/gtag/js?id=G-HXM22WWPKP"></script>
     <script is:inline>
       window.dataLayer = window.dataLayer || [];
       function gtag(){dataLayer.push(arguments);}
@@ -94,8 +92,8 @@ const jsonLd = { '@context': 'https://schema.org', '@graph': [attraction, faqSch
   <body>
     <header id="atas" class="absolute inset-x-0 top-0 z-20 border-b border-white/15 text-white">
       <div class="container-shell flex items-center justify-between py-4">
-        <Logo inverse />
-        <nav class="hidden items-center gap-6 text-sm font-bold md:flex" aria-label="Navigasi utama">
+        <Logo inverse locale={locale} />
+        <nav class="hidden items-center gap-6 text-sm font-bold md:flex" aria-label={locale === 'ms' ? 'Navigasi utama' : locale === 'en' ? 'Main navigation' : '主导航'}>
           <a href="#rancang" class="hover:text-water-100">{t.nav.plan}</a>
           <a href="#datang" class="hover:text-water-100">{t.nav.getting}</a>
           <a href="#sekitar" class="hover:text-water-100">{t.nav.around}</a>
@@ -131,6 +129,15 @@ const jsonLd = { '@context': 'https://schema.org', '@graph': [attraction, faqSch
               {t.hero.chips.map((chip) => (<span class="rounded-full bg-white/12 px-4 py-2 backdrop-blur">{chip}</span>))}
             </div>
           </div>
+        </div>
+      </section>
+
+      <section class="bg-mist-100 py-8" aria-label={t.facts.heading}>
+        <div class="container-shell">
+          <h2 class="text-xl font-black">{t.facts.heading}</h2>
+          <p class="mt-3 leading-7">{t.facts.snapshot}</p>
+          <p class="mt-2 leading-7">{t.facts.caution}</p>
+          <p class="mt-3 text-sm leading-7">{t.facts.sources}: <a href={mapLink} class="underline">Google Maps</a> · <a href="https://ebrochures.malaysia.travel/en/cool-highlands/cameron-highlands/" class="underline">Tourism Malaysia: Cameron Highlands</a> · <a href="https://ebrochures.malaysia.travel/en/malaysia-travel-guide/perak/" class="underline">Tourism Malaysia: Perak</a></p>
         </div>
       </section>
 
@@ -261,7 +268,7 @@ const jsonLd = { '@context': 'https://schema.org', '@graph': [attraction, faqSch
 
     <footer class="bg-[#061c17] py-10 text-white/65">
       <div class="container-shell flex flex-col gap-8 lg:flex-row lg:items-end lg:justify-between">
-        <div><Logo inverse /><p class="mt-5 max-w-xl text-sm leading-6">{t.footer.about}</p></div>
+        <div><Logo inverse locale={locale} /><p class="mt-5 max-w-xl text-sm leading-6">{t.footer.about}</p></div>
         <div class="max-w-lg text-xs leading-6 lg:text-right"><p>{t.footer.photos}</p><p class="mt-2">{t.footer.disclaimer}</p></div>
       </div>
     </footer>
