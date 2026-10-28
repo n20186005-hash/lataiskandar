@@ -1,5 +1,6 @@
 ---
 import Logo from './Logo.astro';
+import TopicLinks from './TopicLinks.astro';
 import { type Locale, localeLabels, localePath, locales, translations } from '../i18n';
 import '../styles/global.css';
 
@@ -97,6 +98,7 @@ const jsonLd = { '@context': 'https://schema.org', '@graph': [attraction, faqSch
           <a href="#rancang" class="flex min-h-11 items-center rounded-xl px-3 hover:bg-white/10 hover:text-water-100 lg:px-0">{t.nav.plan}</a>
           <a href="#datang" class="flex min-h-11 items-center rounded-xl px-3 hover:bg-white/10 hover:text-water-100 lg:px-0">{t.nav.getting}</a>
           <a href="#sekitar" class="flex min-h-11 items-center rounded-xl px-3 hover:bg-white/10 hover:text-water-100 lg:px-0">{t.nav.around}</a>
+          <a href="#topik" class="flex min-h-11 items-center rounded-xl px-3 hover:bg-white/10 hover:text-water-100 lg:px-0">{t.nav.topics}</a>
           <a href="#faq" class="flex min-h-11 items-center rounded-xl px-3 hover:bg-white/10 hover:text-water-100 lg:px-0">{t.nav.faq}</a>
         </nav>
         <div class="flex w-full items-center justify-between gap-3 sm:w-auto">
@@ -240,6 +242,8 @@ const jsonLd = { '@context': 'https://schema.org', '@graph': [attraction, faqSch
           </div>
         </div>
       </section>
+
+      <TopicLinks locale={locale} />
 
       <section class="section-pad bg-mist-100" id="faq">
         <div class="container-shell grid gap-12 lg:grid-cols-[.72fr_1.28fr]">

@@ -49,6 +49,7 @@ export interface Translation {
     plan: string;
     getting: string;
     around: string;
+    topics: string;
     faq: string;
     openMap: string;
   };
@@ -129,6 +130,7 @@ const ms: Translation = {
     plan: 'Rancang lawatan',
     getting: 'Cara ke sini',
     around: 'Sekitar',
+    topics: 'Topik',
     faq: 'FAQ',
     openMap: 'Buka peta ↗',
   },
@@ -281,7 +283,7 @@ const ms: Translation = {
     disclaimer:
       'Maklumat waktu, akses, bayaran dan kemudahan boleh berubah; semak keadaan di lokasi sebelum perjalanan.',
   },
-  facts: { heading: 'Lokasi dan semakan lawatan', snapshot: 'Disemak 19 Oktober 2026: Google Maps menyenaraikan 4.4/5 daripada 6,042 ulasan; alamat Exit 59, 35000 Tapah, Perak. Ini penarafan di Google Maps, bukan ulasan laman ini.', caution: 'Maps menyenaraikan buka 24 jam pada tarikh semakan. Ini tidak menjamin akses atau keselamatan pada waktu malam. Rancang lawatan ketika terang dan semak cuaca, papan tanda serta aturan semasa.', sources: 'Sumber' },
+  facts: { heading: 'Lokasi dan semakan lawatan', snapshot: 'Disemak 19 Oktober 2026: Google Maps menyenaraikan 4.4/5 daripada 6,046 ulasan; alamat Exit 59, 35000 Tapah, Perak. Ini penarafan di Google Maps, bukan ulasan laman ini.', caution: 'Maps menyenaraikan buka 24 jam pada tarikh semakan. Ini tidak menjamin akses atau keselamatan pada waktu malam. Rancang lawatan ketika terang dan semak cuaca, papan tanda serta aturan semasa.', sources: 'Sumber' },
   schemaDescription: 'Air terjun tepi Laluan Persekutuan 59 di antara Tapah dan Cameron Highlands, Perak.',
 };
 
@@ -302,6 +304,7 @@ const en: Translation = {
     plan: 'Plan your visit',
     getting: 'How to get here',
     around: 'Nearby',
+    topics: 'Guides',
     faq: 'FAQ',
     openMap: 'Open map ↗',
   },
@@ -455,7 +458,7 @@ const en: Translation = {
     disclaimer:
       'Opening times, access, fees and facilities can change; check conditions on site before travelling.',
   },
-  facts: { heading: 'Location and visit check', snapshot: 'Checked 19 October 2026: Google Maps lists 4.4/5 from 6,042 reviews and the address Exit 59, 35000 Tapah, Perak. This is a Google Maps rating, not reviews collected by this site.', caution: 'Maps listed 24-hour opening on the check date. This does not guarantee night-time access or safety. Plan a daylight visit and check weather, local signs and current arrangements.', sources: 'Sources' },
+  facts: { heading: 'Location and visit check', snapshot: 'Checked 19 October 2026: Google Maps lists 4.4/5 from 6,046 reviews and the address Exit 59, 35000 Tapah, Perak. This is a Google Maps rating, not reviews collected by this site.', caution: 'Maps listed 24-hour opening on the check date. This does not guarantee night-time access or safety. Plan a daylight visit and check weather, local signs and current arrangements.', sources: 'Sources' },
   schemaDescription: 'A roadside waterfall on Federal Route 59 between Tapah and Cameron Highlands, Perak, Malaysia.',
 };
 
@@ -476,6 +479,7 @@ const zh: Translation = {
     plan: '行程规划',
     getting: '交通方式',
     around: '周边',
+    topics: '专题',
     faq: '常见问题',
     openMap: '打开地图 ↗',
   },
@@ -627,7 +631,7 @@ const zh: Translation = {
       '照片：Ronykr（CC BY-SA 4.0）、Ghaydaa Sayed（CC BY-SA 4.0）、Sasha India（CC BY 2.0），来自 Wikimedia Commons。照片已在本地项目中存储。',
     disclaimer: '开放时间、通行方式、收费与设施可能变动；出行前请在现场确认实际情况。',
   },
-  facts: { heading: '位置与到访信息核查', snapshot: '核查日期：2026年10月19日。Google Maps 显示 4.4/5 分、6,042 条评价，地址为 Exit 59, 35000 Tapah, Perak。此为 Google Maps 评分，并非本站收集的评价。', caution: '核查当日 Maps 列为24小时开放，这不代表夜间一定可以进入或安全。建议白天到访，并确认天气、现场告示与当前安排。', sources: '资料来源' },
+  facts: { heading: '位置与到访信息核查', snapshot: '核查日期：2026年10月19日。Google Maps 显示 4.4/5 分、6,046 条评价，地址为 Exit 59, 35000 Tapah, Perak。此为 Google Maps 评分，并非本站收集的评价。', caution: '核查当日 Maps 列为24小时开放，这不代表夜间一定可以进入或安全。建议白天到访，并确认天气、现场告示与当前安排。', sources: '资料来源' },
   schemaDescription: '位于霹雳州打巴与金马仑高原之间、联邦 59 号公路（Route 59）沿线的路边瀑布。',
 };
 

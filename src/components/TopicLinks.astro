@@ -1,0 +1,63 @@
+---
+import { topics, topicSlugs, topicCategoryLabels, type TopicCategory, type TopicContent } from '../data/topics';
+import { localePath, type Locale } from '../i18n';
+
+interface Props {
+  locale: Locale;
+}
+
+const { locale } = Astro.props;
+
+const categoryOrder: TopicCategory[] = ['transport', 'food', 'itinerary', 'attraction', 'stay', 'safety'];
+
+type LinkItem = { slug: string; content: TopicContent };
+
+const groups: { label: string; items: LinkItem[] }[] = categoryOrder
+  .map((cat) => {
+    const items: LinkItem[] = [];
+    for (const s of topicSlugs) {
+      const content = topics[s]?.[locale];
+      if (content && content.category === cat) items.push({ slug: s, content });
+    }
+    return { label: topicCategoryLabels[cat][locale], items };
+  })
+  .filter((g) => g.items.length > 0);
+
+const eyebrow = locale === 'ms' ? 'Semua panduan' : locale === 'en' ? 'All guides' : '全部指南';
+const heading = locale === 'ms' ? 'Panduan topik Lata Iskandar' : locale === 'en' ? 'Lata Iskandar topic guides' : 'Lata Iskandar 专题指南';
+const lead =
+  locale === 'ms'
+    ? 'Rencana fokus untuk merancang persinggahan: arah, parkir, makan, itinerari, penginapan, keselamatan dan lagi.'
+    : locale === 'en'
+      ? 'Focused guides for planning your stop: directions, parking, food, itineraries, stays, safety and more.'
+      : '为规划停留而写的聚焦指南：路线、停车、餐饮、行程、住宿、安全等。';
+---
+<section class="section-pad bg-mist-100" id="topik">
+  <div class="container-shell">
+    <div class="max-w-3xl">
+      <p class="eyebrow text-clay-500">{eyebrow}</p>
+      <h2 class="mt-4 font-[var(--font-display)] text-5xl leading-none md:text-6xl">{heading}</h2>
+      <p class="mt-6 text-lg leading-8 text-forest-900/70">{lead}</p>
+    </div>
+
+    <div class="mt-14 space-y-14">
+      {groups.map((g) => (
+        <div>
+          <h3 class="border-b border-forest-950/12 pb-3 font-[var(--font-display)] text-2xl font-black text-forest-950">{g.label}</h3>
+          <div class="mt-6 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+            {g.items.map(({ slug, content }) => (
+              <a
+                href={localePath(locale) + slug}
+                class="group block rounded-[1.8rem] bg-white/70 p-7 ring-1 ring-forest-950/10 no-underline transition hover:ring-forest-900/30"
+              >
+                <p class="eyebrow text-moss-500">{content.kicker}</p>
+                <h4 class="mt-3 font-[var(--font-display)] text-xl font-black text-forest-950">{content.h1}</h4>
+                <p class="mt-3 leading-7 text-forest-900/70">{content.lead}</p>
+              </a>
+            ))}
+          </div>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>

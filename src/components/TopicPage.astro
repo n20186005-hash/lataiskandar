@@ -1,0 +1,233 @@
+---
+import Logo from './Logo.astro';
+import { locales, localePath, localeLabels, translations, type Locale } from '../i18n';
+import '../styles/global.css';
+import { topics, type TopicContent, type TopicId } from '../data/topics';
+
+interface Props {
+  locale: Locale;
+  slug: TopicId;
+  content: TopicContent;
+}
+
+const { locale, slug, content } = Astro.props;
+const t = translations[locale];
+
+const site = Astro.site;
+const basePath = localePath(locale) + slug;
+const canonicalUrl = site ? new URL(basePath, site).href : undefined;
+const socialImage = site
+  ? new URL('/images/lata-iskandar-hero.jpg', site).href
+  : '/images/lata-iskandar-hero.jpg';
+const mapLink = 'https://maps.app.goo.gl/91HzKTS7PoVpMsj99';
+
+const hreflangLinks = site
+  ? [
+      ...locales.map((l) => ({
+        hreflang: l === 'zh' ? 'zh-CN' : l,
+        href: new URL(localePath(l) + slug, site).href,
+      })),
+      { hreflang: 'x-default', href: new URL('/' + slug, site).href },
+    ]
+  : [];
+
+const homeUrl = site ? new URL(localePath(locale), site).href : localePath(locale);
+
+const breadcrumb = {
+  '@context': 'https://schema.org',
+  '@type': 'BreadcrumbList',
+  itemListElement: [
+    { '@type': 'ListItem', position: 1, name: 'Lata Iskandar', item: homeUrl },
+    { '@type': 'ListItem', position: 2, name: content.h1, item: canonicalUrl },
+  ],
+};
+const faqSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: content.faqs.map((f) => ({
+    '@type': 'Question',
+    name: f.q,
+    acceptedAnswer: { '@type': 'Answer', text: f.a },
+  })),
+};
+const jsonLd = { '@context': 'https://schema.org', '@graph': [breadcrumb, faqSchema] };
+
+const relatedLabel = locale === 'ms' ? 'Bacaan berkaitan' : locale === 'en' ? 'Related guides' : '相關指南';
+const homeLabel = locale === 'ms' ? 'Laman utama' : locale === 'en' ? 'Home' : '首頁';
+---
+
+<!doctype html>
+<html lang={t.htmlLang}>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width" />
+    <title>{content.meta.title}</title>
+    <meta name="description" content={content.meta.description} />
+    <meta name="robots" content="index, follow, max-image-preview:large" />
+    <meta name="theme-color" content="#103A2F" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:image" content={socialImage} />
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content={t.site.name} />
+    <meta property="og:locale" content={t.ogLocale} />
+    <meta property="og:title" content={content.meta.title} />
+    <meta property="og:description" content={content.meta.description} />
+    <meta property="og:image" content={socialImage} />
+    {canonicalUrl && <meta property="og:url" content={canonicalUrl} />}
+    {canonicalUrl && <link rel="canonical" href={canonicalUrl} />}
+    {hreflangLinks.map((l) => (<link rel="alternate" hreflang={l.hreflang} href={l.href} />))}
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+    <script is:inline type="application/ld+json" set:html={JSON.stringify(jsonLd)}></script>
+    <script is:inline async src="https://www.googletagmanager.com/gtag/js?id=G-HXM22WWPKP"></script>
+    <script is:inline>
+      window.dataLayer = window.dataLayer || [];
+      function gtag() { dataLayer.push(arguments); }
+      gtag('js', new Date());
+      gtag('config', 'G-HXM22WWPKP');
+    </script>
+  </head>
+  <body>
+    <header id="atas" class="border-b border-forest-950/10 bg-mist-50">
+      <div class="container-shell flex flex-wrap items-center justify-between gap-4 py-4">
+        <Logo locale={locale} />
+        <nav class="flex items-center gap-1 text-xs font-extrabold" aria-label="Language">
+          {locales.map((l) => (
+            <a
+              href={localePath(l) + slug}
+              aria-current={l === locale ? 'page' : undefined}
+              class:list={[
+                'inline-flex min-h-11 min-w-11 items-center justify-center rounded-full px-3 py-2 no-underline',
+                l === locale ? 'bg-forest-900 text-mist-50' : 'text-forest-900/80 hover:bg-forest-900/10',
+              ]}>{localeLabels[l]}</a>
+          ))}
+        </nav>
+        <a
+          href={mapLink}
+          target="_blank"
+          rel="noopener noreferrer"
+          class="inline-flex min-h-11 shrink-0 items-center rounded-full bg-forest-900 px-4 py-2 text-sm font-extrabold text-mist-50 no-underline hover:bg-forest-800"
+          >{t.nav.openMap}</a
+        >
+      </div>
+    </header>
+
+    <main>
+      <nav class="container-shell py-4 text-sm" aria-label="Breadcrumb">
+        <a href={localePath(locale)} class="text-forest-900/70 underline">{homeLabel}</a>
+        <span class="px-2 text-forest-900/40">/</span>
+        <span class="text-forest-900/90">{content.h1}</span>
+      </nav>
+
+      <section class="bg-mist-50 pb-4">
+        <div class="container-shell">
+          <p class="eyebrow text-clay-500">{content.kicker}</p>
+          <h1 class="mt-3 max-w-3xl font-[var(--font-display)] text-[clamp(2.4rem,6vw,4rem)] leading-[.95] tracking-tight text-forest-950">
+            {content.h1}
+          </h1>
+          <p class="mt-6 max-w-2xl text-lg leading-8 text-forest-900/75">{content.lead}</p>
+        </div>
+      </section>
+
+      <section class="section-pad bg-mist-100">
+        <div class="container-shell grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
+          {content.facts.map((f) => (
+            <div class="rounded-[1.6rem] bg-white/70 p-6 ring-1 ring-forest-950/10">
+              <p class="eyebrow text-moss-500">{f.label}</p>
+              <p class="mt-3 text-lg font-black text-forest-950">{f.value}</p>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      <section class="section-pad bg-mist-50">
+        <div class="container-shell grid gap-12 lg:grid-cols-[.9fr_1.1fr] lg:items-start">
+          <div class="space-y-10 lg:sticky lg:top-8">
+            {content.blocks.map((b) => (
+              <div>
+                <h2 class="font-[var(--font-display)] text-2xl font-black text-forest-950">{b.heading}</h2>
+                <div class="mt-4 space-y-4 leading-8 text-forest-900/75">
+                  {b.paragraphs?.map((p) => (<p>{p}</p>))}
+                  {b.bullets && (
+                    <ul class="list-disc space-y-2 pl-5">
+                      {b.bullets.map((x) => (<li>{x}</li>))}
+                    </ul>
+                  )}
+                  {b.callout && (
+                    <p class="rounded-2xl bg-clay-400/15 p-4 text-sm font-bold text-forest-950 ring-1 ring-clay-400/30">{b.callout}</p>
+                  )}
+                </div>
+              </div>
+            ))}
+          </div>
+          <div class="rounded-[2.5rem] bg-forest-900 p-8 text-mist-50">
+            <h2 class="font-[var(--font-display)] text-3xl">FAQ</h2>
+            <div class="mt-6 space-y-3">
+              {content.faqs.map((f) => (
+                <details class="group rounded-2xl bg-white/5 px-5 py-4">
+                  <summary class="flex cursor-pointer list-none items-center justify-between gap-4 font-black">
+                    <span>{f.q}</span>
+                    <span class="plus grid h-8 w-8 shrink-0 place-items-center rounded-full bg-water-300 text-xl text-forest-950">+</span>
+                  </summary>
+                  <p class="max-w-2xl pt-4 leading-7 text-mist-50/80">{f.a}</p>
+                </details>
+              ))}
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {content.related.length > 0 && (
+        <section class="section-pad bg-mist-100">
+          <div class="container-shell">
+            <p class="eyebrow text-clay-500">{relatedLabel}</p>
+            <div class="mt-6 grid gap-5 lg:grid-cols-3">
+              {content.related
+                .map((r) => ({ r, rc: topics[r]?.[locale] }))
+                .filter((x): x is { r: TopicId; rc: TopicContent } => Boolean(x.rc))
+                .map(({ r, rc }) => (
+                  <a
+                    href={localePath(locale) + r}
+                    class="block rounded-[1.6rem] bg-white/70 p-7 ring-1 ring-forest-950/10 no-underline hover:ring-forest-900/30"
+                  >
+                    <p class="eyebrow text-moss-500">{rc.kicker}</p>
+                    <h3 class="mt-3 font-[var(--font-display)] text-2xl text-forest-950">{rc.h1}</h3>
+                    <p class="mt-3 leading-7 text-forest-900/70">{rc.lead}</p>
+                  </a>
+                ))}
+            </div>
+          </div>
+        </section>
+      )}
+
+      <section class="relative overflow-hidden bg-forest-950 text-mist-50">
+        <div class="container-shell relative py-20 md:py-24">
+          <p class="eyebrow text-water-300">{t.cta.eyebrow}</p>
+          <h2 class="mt-5 max-w-3xl font-[var(--font-display)] text-4xl leading-none md:text-6xl">{t.cta.heading}</h2>
+          <a
+            href={mapLink}
+            target="_blank"
+            rel="noopener noreferrer"
+            class="mt-8 inline-flex rounded-full bg-mist-50 px-6 py-3 font-black text-forest-950 no-underline"
+            >{t.cta.button}</a
+          >
+        </div>
+      </section>
+    </main>
+
+    <footer class="bg-[#061c17] py-10 text-mist-50/65">
+      <div class="container-shell flex flex-col gap-8 lg:flex-row lg:items-end lg:justify-between">
+        <div>
+          <Logo inverse locale={locale} />
+          <p class="mt-5 max-w-xl text-sm leading-6">{t.footer.about}</p>
+        </div>
+        <div class="max-w-lg text-xs leading-6 lg:text-right">
+          <p>{t.footer.photos}</p>
+          <p class="mt-2">{t.footer.disclaimer}</p>
+        </div>
+      </div>
+    </footer>
+  </body>
+</html>
